@@ -1,9 +1,11 @@
 
 public class FileCompression {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+	public static void main(String[] args) 
+	{
+		FileCompScreen screen = new FileCompScreen();
+		
+		screen.setVisible(true);
 	}
 
 }
