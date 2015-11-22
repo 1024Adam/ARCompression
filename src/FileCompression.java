@@ -1,3 +1,7 @@
+/*
+ * Adam Reid
+ * November 22, 2015
+ */
 
 public class FileCompression 
 {

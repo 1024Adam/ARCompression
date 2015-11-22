@@ -1,28 +1,17 @@
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import java.awt.event.*;
 import java.awt.*;
-import java.io.*;
-import java.util.*;
 
 /*
  * Adam Reid
- * November 19, 2015
+ * November 22, 2015
  */
-
 
 public class FileCompScreen extends JFrame
 {
     private static final long serialVersionUID = 1L;
 
-    public static final int WIDTH = 600;
-    public static final int HEIGHT = 500;
-    
-    private static JPanel mainPanel = new JPanel();
-    private static JPanel contentsPanel = new JPanel();
-    private static JPanel submitPanel = new JPanel();
+    public static final int WIDTH = 300;
+    public static final int HEIGHT = 165;
 
     public FileCompScreen()
     {
@@ -33,6 +22,11 @@ public class FileCompScreen extends JFrame
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         //addWindowListener(); // need to add a WindowListener
 
+        JPanel totalPanel = new JPanel();
+        JPanel mainPanel = new JPanel();
+        JPanel contentsPanel = new JPanel();
+        JPanel submitPanel = new JPanel();
+        
         // Create Menu Bar 
         JMenuBar bar = new JMenuBar();
         JMenu file = new JMenu("File");
@@ -43,48 +37,62 @@ public class FileCompScreen extends JFrame
         bar.add(file);
         setJMenuBar(bar);
 
+        // Setup total panel
+        totalPanel.setBackground(Color.WHITE);
+        totalPanel.setLayout(new BorderLayout());
+        
         // Setup main panel
         mainPanel.setBackground(Color.WHITE);
         mainPanel.setLayout(new BorderLayout());
 
-        JToggleButton toggle = new JToggleButton("Compress", false);
-        toggle.addChangeListener(new ChangeListener()
-        {
-            @Override
-            public void stateChanged(ChangeEvent event) 
-            {
-                if (!toggle.isSelected())
-                {
-                    toggle.setText("Compress");
-                } 
-                else 
-                {
-                    toggle.setText("Decompress");
-                }
-            }
-        });
+        JButton compress = new JButton("<html><b>Compress</b></html>");
+        compress.setSelected(true);
+
+        JButton decompress = new JButton("Decompress");
+        decompress.setSelected(false);
+        
+        // Submit button; will be used for the submit panel further down
+        JButton submit = new JButton("<html><b>Compress File</b></html>");
+        
+        compress.addActionListener(new CompressListener(compress, decompress, submit));
+        decompress.addActionListener(new DecompressListener(decompress, compress, submit));
+                
+        // Setup top panel
         JPanel topPanel = new JPanel();
         topPanel.setBackground(Color.WHITE);
-        topPanel.add(toggle);
+        topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        topPanel.add(compress);
+        topPanel.add(decompress);
         mainPanel.add(topPanel, BorderLayout.NORTH);
+        
+        mainPanel.add(new JSeparator(JSeparator.HORIZONTAL), BorderLayout.CENTER);
 
         // Setup contents panel
         contentsPanel.setBackground(Color.WHITE);
-        contentsPanel.setLayout(new GridLayout(0, 2));
+        contentsPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
         JPanel centerPanel = new JPanel();
+        centerPanel.setLayout(new BorderLayout());
         centerPanel.setBackground(Color.WHITE);
         JButton searchButton = new JButton("Browse...");
-        centerPanel.add(searchButton);
+        centerPanel.add(searchButton, BorderLayout.WEST);
+
+        JLabel fileLabel = new JLabel("<html><font size = 5>hello</font></html>");
+        centerPanel.add(fileLabel, BorderLayout.CENTER); 
+        
         contentsPanel.add(centerPanel);
 
-        JPanel centerPanel2 = new JPanel();
-        centerPanel2.setBackground(Color.WHITE);
-        JLabel fileLabel = new JLabel("hello");
-        centerPanel2.add(fileLabel); 
-        contentsPanel.add(centerPanel2);
-
-        mainPanel.add(contentsPanel, BorderLayout.CENTER);
-        add(mainPanel);
+        mainPanel.add(contentsPanel, BorderLayout.SOUTH);
+        totalPanel.add(mainPanel, BorderLayout.NORTH);
+        
+        // Setup submit panel
+        submitPanel.setBackground(Color.WHITE);
+        submitPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        
+        submitPanel.add(submit);
+        
+        totalPanel.add(submitPanel, BorderLayout.SOUTH);
+        
+        add(totalPanel);
     }
 }
