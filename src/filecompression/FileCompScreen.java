@@ -1,9 +1,11 @@
+package filecompression;
+
 import javax.swing.*;
 import java.awt.*;
 
 /*
  * Adam Reid
- * November 22, 2015
+ * November 26, 2015
  */
 
 public class FileCompScreen extends JFrame
@@ -11,7 +13,7 @@ public class FileCompScreen extends JFrame
     private static final long serialVersionUID = 1L;
 
     public static final int WIDTH = 300;
-    public static final int HEIGHT = 165;
+    public static final int HEIGHT = 225;
 
     public FileCompScreen()
     {
@@ -20,8 +22,8 @@ public class FileCompScreen extends JFrame
         setTitle("File Compressor");
 
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        //addWindowListener(); // need to add a WindowListener
-
+        addWindowListener(new ExitListener());
+        
         JPanel totalPanel = new JPanel();
         JPanel mainPanel = new JPanel();
         JPanel contentsPanel = new JPanel();
@@ -32,7 +34,7 @@ public class FileCompScreen extends JFrame
         JMenu file = new JMenu("File");
 
         JMenuItem quit = new JMenuItem("Quit");
-        //quit.addActionListener(new QuitListener()); // need to add a quit listener
+        quit.addActionListener(new QuitListener()); 
         file.add(quit);
         bar.add(file);
         setJMenuBar(bar);
@@ -55,7 +57,7 @@ public class FileCompScreen extends JFrame
         JButton submit = new JButton("<html><b>Compress File</b></html>");
         
         compress.addActionListener(new CompressListener(compress, decompress, submit));
-        decompress.addActionListener(new DecompressListener(decompress, compress, submit));
+        decompress.addActionListener(new CompressListener(decompress, compress, submit));
                 
         // Setup top panel
         JPanel topPanel = new JPanel();
@@ -77,7 +79,7 @@ public class FileCompScreen extends JFrame
         JButton searchButton = new JButton("Browse...");
         centerPanel.add(searchButton, BorderLayout.WEST);
 
-        JLabel fileLabel = new JLabel("<html><font size = 5>hello</font></html>");
+        JLabel fileLabel = new JLabel("<html><font size = 4>hello</font></html>");
         centerPanel.add(fileLabel, BorderLayout.CENTER); 
         
         contentsPanel.add(centerPanel);
@@ -87,10 +89,31 @@ public class FileCompScreen extends JFrame
         
         // Setup submit panel
         submitPanel.setBackground(Color.WHITE);
-        submitPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        submitPanel.setLayout(new BorderLayout());
         
-        submitPanel.add(submit);
+        JPanel southPanel1 = new JPanel();
+        southPanel1.setBackground(Color.WHITE);
+        southPanel1.setLayout(new FlowLayout(FlowLayout.LEFT));
         
+        JTextArea statusArea = new JTextArea();
+        statusArea.setLineWrap(true);
+        statusArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(statusArea);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setPreferredSize(new Dimension(270, 36));
+        southPanel1.add(scrollPane);
+        
+        JPanel southPanel2 = new JPanel();
+        southPanel2.setBackground(Color.WHITE);
+        southPanel2.setLayout(new FlowLayout(FlowLayout.LEFT));
+        
+        submit.addActionListener(new SubmitListener(statusArea));
+        southPanel2.add(submit);
+        
+        submitPanel.add(southPanel1, BorderLayout.NORTH);
+        submitPanel.add(southPanel2, BorderLayout.SOUTH);
+
         totalPanel.add(submitPanel, BorderLayout.SOUTH);
         
         add(totalPanel);

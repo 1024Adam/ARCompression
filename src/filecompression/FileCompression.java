@@ -1,6 +1,8 @@
+package filecompression;
+
 /*
  * Adam Reid
- * November 22, 2015
+ * November 26, 2015
  */
 
 public class FileCompression 
