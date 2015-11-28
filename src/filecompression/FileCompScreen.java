@@ -79,8 +79,8 @@ public class FileCompScreen extends JFrame
         JButton searchButton = new JButton("Browse...");
         centerPanel.add(searchButton, BorderLayout.WEST);
 
-        JLabel fileLabel = new JLabel("<html><font size = 4>hello</font></html>");
-        centerPanel.add(fileLabel, BorderLayout.CENTER); 
+        JTextField fileField = new JTextField(13);
+        centerPanel.add(fileField, BorderLayout.CENTER); 
         
         contentsPanel.add(centerPanel);
 
