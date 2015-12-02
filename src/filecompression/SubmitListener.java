@@ -12,21 +12,21 @@ public class SubmitListener implements ActionListener
 {
     private JTextArea textArea;
 
-	public SubmitListener(JTextArea textArea)
+    public SubmitListener(JTextArea textArea)
     {
         this.textArea = textArea;
     }
 	
-	@Override
-	public void actionPerformed(ActionEvent e) 
-	{
-		if(textArea.getText().equalsIgnoreCase(""))
-		{
-		    textArea.setText("You pressed the button");
-		}
-		else
-		{
-		    textArea.setText(textArea.getText() + "\nYou pressed the button");
-	    }
-	}
+    @Override
+    public void actionPerformed(ActionEvent e) 
+    {
+        if(textArea.getText().equalsIgnoreCase(""))
+        {
+            textArea.setText("You pressed the button");
+        }
+        else
+        {
+            textArea.setText(textArea.getText() + "\nYou pressed the button");
+        }
+    }
 }

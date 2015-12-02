@@ -2,20 +2,34 @@
 
 /*
  * Adam Reid
- * November 28, 2015
+ * December 1, 2015
  */
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 
-typedef struct Encoding
+typedef struct CharCounts
 {
     char letter;
     int count;
-    struct Chars * next; 
+    struct CharCounts * next; 
 }
-Encoding;
+CharCounts;
 
-Encoding * addEncoding(Encoding * codes, Encoding * toAdd);
-Encoding * removeEncoding(Encoding * codes, char to Remove);
-Encoding * deleteEncoding(Encoding codes);
+typedef struct EncodingTree
+{
+    char letter;
+    int count;
+    struct EncodingTree * next; 
+}
+EncodingTree;
+
+CharCounts * getCharCounts(char * fileToOpen);
+int isCounted(CharCounts * root, char letter);
+CharCounts * addChar(CharCounts * root, char toAdd);
+CharCounts * removeChar(CharCounts * root, char toRemove);
+CharCounts * addCount(CharCounts * root, char letter);
+
+EncodingTree * createTree(CharCounts * counts);
+EncodingTree * addToTree(EncodingTree * root, char toAdd, int letterCount); 
