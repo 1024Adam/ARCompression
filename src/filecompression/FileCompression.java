@@ -1,3 +1,4 @@
+/* FileCompression.java */
 package filecompression;
 
 /*

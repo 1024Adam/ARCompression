@@ -1,3 +1,4 @@
+/* ConfirmWindow.java */
 package filecompression;
 
 import java.awt.*;

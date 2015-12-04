@@ -1,3 +1,4 @@
+/* FileCompScreen.java */
 package filecompression;
 
 import javax.swing.*;

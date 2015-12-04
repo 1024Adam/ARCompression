@@ -2,7 +2,7 @@
 
 /*
  * Adam Reid
- * December 1, 2015
+ * December 3, 2015
  */
 
 #include <stdlib.h>
@@ -27,9 +27,11 @@ EncodingTree;
 
 CharCounts * getCharCounts(char * fileToOpen);
 int isCounted(CharCounts * root, char letter);
+CharCounts * createCount(char  letter);
 CharCounts * addChar(CharCounts * root, char toAdd);
 CharCounts * removeChar(CharCounts * root, char toRemove);
 CharCounts * addCount(CharCounts * root, char letter);
+void printCounts(CharCounts * root);
 
 EncodingTree * createTree(CharCounts * counts);
 EncodingTree * addToTree(EncodingTree * root, char toAdd, int letterCount); 
