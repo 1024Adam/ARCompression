@@ -11,9 +11,19 @@
 int main()
 {
     CharCounts * counts;
+    int length;
+
     counts = getCharCounts("test.txt");
+    length = 0;
 
     printCounts(counts);
+    length = getLength(counts);
+    printf("\nLength: %d\n\n", length);
 
+    counts = sortCounts(counts);
+
+    printCounts(counts);
+    length = getLength(counts);
+    printf("\nLength: %d\n\n", length);
     return(0);
 }

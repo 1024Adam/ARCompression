@@ -14,6 +14,7 @@ typedef struct CharCounts
     char letter;
     int count;
     struct CharCounts * next; 
+    struct CharCounts * prev;
 }
 CharCounts;
 
@@ -32,6 +33,8 @@ CharCounts * addChar(CharCounts * root, char toAdd);
 CharCounts * removeChar(CharCounts * root, char toRemove);
 CharCounts * addCount(CharCounts * root, char letter);
 void printCounts(CharCounts * root);
+CharCounts * sortCounts(CharCounts * root);
+int getLength(CharCounts * root);
 
 EncodingTree * createTree(CharCounts * counts);
 EncodingTree * addToTree(EncodingTree * root, char toAdd, int letterCount); 

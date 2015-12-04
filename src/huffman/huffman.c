@@ -82,6 +82,7 @@ CharCounts * addChar(CharCounts * root, char toAdd)
         {
             temp = temp->next;
         }
+        newCount->prev = temp;
         temp->next = newCount;
 
         return(root);
@@ -117,6 +118,7 @@ CharCounts * createCount(char letter)
     newCount->letter = letter;
     newCount->count = 1;
     newCount->next = NULL;
+    newCount->prev = NULL;
 
     return(newCount);
 }
@@ -131,4 +133,76 @@ void printCounts(CharCounts * root)
         printf("%c %d\n", temp->letter, temp->count);
         temp = temp->next;
     }
+}
+
+CharCounts * sortCounts(CharCounts * root)
+{
+    CharCounts * temp;
+    CharCounts * swap;
+    int done;
+
+    temp = root;
+    done = 0;
+
+    while(done == 0)
+    {
+        done = 1;
+        temp = root;
+        while(temp != NULL && temp->next != NULL)
+        {
+            if(temp->count > temp->next->count)
+            {
+                /* swap */
+                /*printf("Start\n");*/
+                /*printf("Letter 1: %c %d\n", temp->letter, temp->count);*/
+                /*printf("Letter 2: %c %d\n", temp->next->letter, temp->next->count);*/
+                done = 0;
+                swap = temp->next;
+                temp->next = temp->next->next;
+                if(temp->next != NULL)
+                {
+                    temp->next->prev = temp;
+                }
+
+                swap->next = temp;
+                swap->prev = temp->prev;
+                if(swap->prev != NULL)
+                {
+                    swap->prev->next = swap;
+                }
+                
+                temp->prev = swap;
+                
+                if(swap->prev == NULL)
+                {
+                    root = swap;
+                }
+                /*printf("Letter 1: %c %d\n", temp->prev->letter, temp->prev->count);*/
+                /*printf("Letter 2: %c %d\n", temp->letter, temp->count);*/
+            }
+            else
+            {
+                temp = temp->next;
+            }
+        }
+    }
+
+    return(root);
+}
+
+int getLength(CharCounts * root)
+{
+    CharCounts * temp;
+    int length;
+
+    temp = root;
+    length = 0;
+
+    while(temp != NULL)
+    {
+        length++;
+        temp = temp->next;
+    }
+
+    return(length);
 }
