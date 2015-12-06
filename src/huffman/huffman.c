@@ -206,3 +206,80 @@ int getLength(CharCounts * root)
 
     return(length);
 }
+
+CharCounts * removeFront(CharCounts * root)
+{
+    CharCounts * toRemove;
+
+    toRemove = root;
+    root = root->next;
+
+    free(toRemove);
+    return(root);
+}
+
+EncodingTree * createTree(CharCounts * counts)
+{
+    EncodingTree * root;
+    EncodingTree * toAdd;
+    int nodeCount;
+    
+    root = NULL;
+    toAdd = NULL;
+    nodeCount = 0;
+
+    while(counts != NULL)
+    {
+        toAdd = createBranch(counts);
+        counts = removeFront(counts);
+        
+        root = insertInTree(root, toAdd);
+    }
+}
+
+EncodingTree * createBranch(CharCounts * count)
+{
+    EncodingTree * branch;
+
+    branch = malloc(sizeof(EncodingTree));
+
+    branch->letter = count->letter;
+    branch->count = count->count;
+    branch->lChild = NULL;
+    branch->rChild = NULL;
+
+    return(branch); 
+}
+
+int treeNodeCount(EncodingTree * root)
+{
+    EncodingTree * temp;
+    int nodeCount;
+
+    temp = root;
+    nodeCount = 0;
+    
+    if(temp == NULL)
+    {
+        return(nodeCount);
+    }
+    nodeCount++;
+    nodeCount += treeNodeCount(root->lChild);
+    nodeCount += treeNodeCount(root->rChild);
+}
+
+EncodingTree * insertInTree(EncodingTree * root, EncodingTree * toAdd)
+{
+    int nodeCount;
+
+    nodeCount = treeNodeCount(root);
+
+    if(nodeCount == 0)
+    {
+        return(toAdd);
+    }
+    else
+    {
+        
+    }
+}

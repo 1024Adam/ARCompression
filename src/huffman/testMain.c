@@ -25,5 +25,15 @@ int main()
     printCounts(counts);
     length = getLength(counts);
     printf("\nLength: %d\n\n", length);
+
+    printf("Removing counts...\n");
+    while(counts != NULL)
+    {
+        counts = removeFront(counts);
+    }
+    if(counts == NULL)
+    {
+        printf("No more counts\n");
+    } 
     return(0);
 }
