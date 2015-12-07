@@ -2,7 +2,7 @@
 
 /*
  * Adam Reid
- * December 5, 2015
+ * December 6, 2015
  */
 
 #include <stdlib.h>
@@ -27,6 +27,13 @@ typedef struct EncodingTree
 }
 EncodingTree;
 
+typedef struct TreeQueue
+{
+    EncodingTree * root;
+    struct TreeQueue * next;
+}
+TreeQueue;
+
 CharCounts * getCharCounts(char * fileToOpen);
 int isCounted(CharCounts * root, char letter);
 CharCounts * createCount(char  letter);
@@ -38,6 +45,10 @@ int getLength(CharCounts * root);
 CharCounts * removeFront(CharCounts * root);
 
 EncodingTree * createTree(CharCounts * counts);
-EncodingTree * createBranch(CharCounts * count);
+TreeQueue * createBranch(CharCounts * count);
+TreeQueue * createBranchFromTree(EncodingTree * root);
 int treeNodeCount(EncodingTree * root);
 EncodingTree * insertInTree(EncodingTree * root, EncodingTree * toAdd);
+TreeQueue * insertInQueue(TreeQueue * root, TreeQueue * toAdd);
+int isEmpty(TreeQueue * root);
+TreeQueue * removeFromQueue(TreeQueue * root);

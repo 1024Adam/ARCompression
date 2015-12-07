@@ -2,7 +2,7 @@
 
 /*
  * Adam Ried
- * December 5, 2015
+ * December 6, 2015
  */
 
 #include <stdlib.h>
@@ -221,11 +221,17 @@ CharCounts * removeFront(CharCounts * root)
 EncodingTree * createTree(CharCounts * counts)
 {
     EncodingTree * root;
-    EncodingTree * toAdd;
+    TreeQueue * queue;
+    TreeQueue * toAdd;
+    EncodingTree * temp1;
+    EncodingTree * temp2;
     int nodeCount;
     
     root = NULL;
+    queue = NULL;
     toAdd = NULL;
+    temp1 = NULL;
+    temp2 = NULL;
     nodeCount = 0;
 
     while(counts != NULL)
@@ -233,22 +239,56 @@ EncodingTree * createTree(CharCounts * counts)
         toAdd = createBranch(counts);
         counts = removeFront(counts);
         
-        root = insertInTree(root, toAdd);
+        queue = insertInQueue(queue, toAdd);
     }
+
+    while(isEmpty(queue) == 0)
+    {
+        if(toAdd != NULL)
+        {
+            queue = insertInQueue(queue, toAdd);
+        }
+        /* Remove two from queue */
+        temp1 = queue->root;
+        queue = removeFromQueue(queue);
+        temp2 = queue->root;
+        queue = removeFromQueue(queue);
+
+        temp2 = insertInTree(temp2, temp1);
+        toAdd = createBranchFromTree(temp2);
+    }
+
+    root = toAdd->root;
+
+    return(root);
 }
 
-EncodingTree * createBranch(CharCounts * count)
+TreeQueue * createBranch(CharCounts * count)
 {
-    EncodingTree * branch;
+    TreeQueue * branch;
 
-    branch = malloc(sizeof(EncodingTree));
+    branch = malloc(sizeof(TreeQueue));
 
-    branch->letter = count->letter;
-    branch->count = count->count;
-    branch->lChild = NULL;
-    branch->rChild = NULL;
+    branch->root = malloc(sizeof(EncodingTree));
+    branch->root->letter = count->letter;
+    branch->root->count = count->count;
+    branch->root->lChild = NULL;
+    branch->root->rChild = NULL;
+    branch->next = NULL;
 
     return(branch); 
+}
+
+TreeQueue * createBranchFromTree(EncodingTree * root)
+{
+    TreeQueue * branch;
+
+    branch = malloc(sizeof(TreeQueue));
+
+    branch->root = root;
+    branch->next = NULL;
+
+    return(branch);
 }
 
 int treeNodeCount(EncodingTree * root)
@@ -263,16 +303,19 @@ int treeNodeCount(EncodingTree * root)
     {
         return(nodeCount);
     }
-    nodeCount++;
-    nodeCount += treeNodeCount(root->lChild);
-    nodeCount += treeNodeCount(root->rChild);
+    else
+    {
+        return(nodeCount + 1 + treeNodeCount(root->lChild) + treeNodeCount(root->rChild));
+    }
 }
 
 EncodingTree * insertInTree(EncodingTree * root, EncodingTree * toAdd)
 {
     int nodeCount;
+    EncodingTree * newRoot;
 
     nodeCount = treeNodeCount(root);
+    newRoot = malloc(sizeof(EncodingTree));
 
     if(nodeCount == 0)
     {
@@ -280,6 +323,61 @@ EncodingTree * insertInTree(EncodingTree * root, EncodingTree * toAdd)
     }
     else
     {
-        
+        newRoot->lChild = toAdd;
+        newRoot->rChild = root;
+
+        return(newRoot);
     }
+}
+
+TreeQueue * insertInQueue(TreeQueue * root, TreeQueue * toAdd)
+{
+    TreeQueue * temp;
+    temp = root;
+
+    while(temp != NULL && temp->next != NULL && temp->root->count <= toAdd->root->count)
+    {
+        temp = temp->next;
+    }
+    
+    if(temp == NULL)
+    {
+        return(toAdd);
+    }
+    else if(temp->next == NULL)
+    {
+        temp->next = toAdd;
+        return(root);
+    }
+    else
+    {
+        toAdd->next = temp->next;
+        temp->next = toAdd;
+        return(root);
+    }
+}
+
+int isEmpty(TreeQueue * root)
+{
+    if(root == NULL)
+    {
+        return(1);
+    }
+    else
+    {
+        return(0);
+    }
+}
+
+TreeQueue * removeFromQueue(TreeQueue * root)
+{
+    TreeQueue * temp;
+    temp = root;
+
+    root = root->next;
+
+    free(temp);
+    return(root);
+
+    
 }
