@@ -20,7 +20,7 @@ public class FileCompScreen extends JFrame
     {
         super();
         setSize(WIDTH, HEIGHT);
-        setTitle("File Compressor");
+        setTitle("ARCompression");
 
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         addWindowListener(new ExitListener());
