@@ -1,12 +1,12 @@
 /* FileCompScreen.java */
-package filecompression;
+package arcompression;
 
 import javax.swing.*;
 import java.awt.*;
 
 /*
  * Adam Reid
- * November 26, 2015
+ * December 7, 2015
  */
 
 public class FileCompScreen extends JFrame

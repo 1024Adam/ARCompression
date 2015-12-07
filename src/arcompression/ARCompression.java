@@ -1,12 +1,12 @@
-/* FileCompression.java */
-package filecompression;
+/* ARCompression.java */
+package arcompression;
 
 /*
  * Adam Reid
- * November 26, 2015
+ * December 7, 2015
  */
 
-public class FileCompression 
+public class ARCompression 
 {
     public static void main(String[] args) 
     {

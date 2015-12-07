@@ -1,12 +1,12 @@
 /* SubmitListener.java */
-package filecompression;
+package arcompression;
 
 import java.awt.event.*;
 import javax.swing.*;
 
 /*
  * Adam Reid
- * November 26, 2015
+ * December 7, 2015
  */
 
 public class SubmitListener implements ActionListener 

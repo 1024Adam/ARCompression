@@ -1,11 +1,11 @@
 /* ExitListener.java */
-package filecompression;
+package arcompression;
 
 import java.awt.event.*;
 
 /*
  * Adam Reid
- * November 26, 2015
+ * December 7, 2015
  */
 
 public class ExitListener extends WindowAdapter
