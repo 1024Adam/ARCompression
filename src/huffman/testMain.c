@@ -2,7 +2,7 @@
 
 /*
  * Adam Reid
- * December 3, 2015
+ * December 10, 2015
  */
 
 #include <stdio.h>
@@ -11,6 +11,7 @@
 int main()
 {
     CharCounts * counts;
+    EncodingTree * tree;
     int length;
 
     counts = getCharCounts("test.txt");
@@ -26,14 +27,8 @@ int main()
     length = getLength(counts);
     printf("\nLength: %d\n\n", length);
 
-    printf("Removing counts...\n");
-    while(counts != NULL)
-    {
-        counts = removeFront(counts);
-    }
-    if(counts == NULL)
-    {
-        printf("No more counts\n");
-    } 
+    tree = createTree(counts);
+    printTree(tree);
+
     return(0);
 }

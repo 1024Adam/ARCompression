@@ -2,7 +2,7 @@
 
 /*
  * Adam Ried
- * December 6, 2015
+ * December 10, 2015
  */
 
 #include <stdlib.h>
@@ -238,22 +238,28 @@ EncodingTree * createTree(CharCounts * counts)
     {
         toAdd = createBranch(counts);
         counts = removeFront(counts);
-        
         queue = insertInQueue(queue, toAdd);
-    }
-
+    }  
+    /*printQueue(queue);*/
+    toAdd = NULL;
     while(isEmpty(queue) == 0)
     {
+        /*printf("boom\n");*/        
         if(toAdd != NULL)
         {
             queue = insertInQueue(queue, toAdd);
         }
         /* Remove two from queue */
         temp1 = queue->root;
-        queue = removeFromQueue(queue);
+        /*printf("%c%d\n\nQueue1\n", temp1->letter, temp1->count);*/
+        /*printQueue(queue);*/
+        queue = queue->next;
+        /*printf("Queue2\n");*/
+        /*printQueue(queue);*/
         temp2 = queue->root;
-        queue = removeFromQueue(queue);
-
+        /*printf("%c%d\n\n", temp2->letter, temp2->count);*/
+        queue = queue->next;
+        /*printQueue(queue);*/
         temp2 = insertInTree(temp2, temp1);
         toAdd = createBranchFromTree(temp2);
     }
@@ -316,6 +322,8 @@ EncodingTree * insertInTree(EncodingTree * root, EncodingTree * toAdd)
 
     nodeCount = treeNodeCount(root);
     newRoot = malloc(sizeof(EncodingTree));
+    newRoot->letter = '\0';
+    newRoot->count = root->count + toAdd->count;
 
     if(nodeCount == 0)
     {
@@ -335,24 +343,32 @@ TreeQueue * insertInQueue(TreeQueue * root, TreeQueue * toAdd)
     TreeQueue * temp;
     temp = root;
 
-    while(temp != NULL && temp->next != NULL && temp->root->count <= toAdd->root->count)
+    /*printf("ToAdd\n");
+    printQueue(toAdd);*/
+
+    while(temp != NULL && temp->next != NULL && temp->root->count < toAdd->root->count)
     {
         temp = temp->next;
     }
     
-    if(temp == NULL)
+    if(root == NULL)
     {
+        toAdd->next = NULL;
+        /*printQueue(toAdd);*/
         return(toAdd);
     }
     else if(temp->next == NULL)
     {
         temp->next = toAdd;
+        toAdd->next = NULL;
+        /*printQueue(root);*/
         return(root);
     }
     else
     {
         toAdd->next = temp->next;
         temp->next = toAdd;
+        /*printQueue(root);*/
         return(root);
     }
 }
@@ -377,7 +393,37 @@ TreeQueue * removeFromQueue(TreeQueue * root)
     root = root->next;
 
     free(temp);
-    return(root);
+    return(root);    
+}
 
-    
+void printTree(EncodingTree * root)
+{
+    if(root != NULL)
+    {
+        printf("ROOT\n");
+        printf("%c%d\n", root->letter, root->count);
+        printf("LeftChild\n");
+        printTree(root->lChild);
+        printf("\n");
+        printf("RightChild\n");
+        printTree(root->rChild);
+        printf("\n");
+    }
+}
+
+void printQueue(TreeQueue * root)
+{
+    TreeQueue * temp;
+
+    temp = root;
+    while(temp != NULL)
+    {
+        printf("%c%d\n", temp->root->letter, temp->root->count);
+        /*if(temp->next != NULL)
+        {
+            printf("Next:%c\n", temp->next->root->letter);
+        }*/
+        temp = temp->next;
+    }
+    /*printf("end\n");*/
 }

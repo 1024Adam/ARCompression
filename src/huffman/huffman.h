@@ -2,7 +2,7 @@
 
 /*
  * Adam Reid
- * December 6, 2015
+ * December 10, 2015
  */
 
 #include <stdlib.h>
@@ -52,3 +52,5 @@ EncodingTree * insertInTree(EncodingTree * root, EncodingTree * toAdd);
 TreeQueue * insertInQueue(TreeQueue * root, TreeQueue * toAdd);
 int isEmpty(TreeQueue * root);
 TreeQueue * removeFromQueue(TreeQueue * root);
+void printTree(EncodingTree * root);
+void printQueue(TreeQueue * root);
