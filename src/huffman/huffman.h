@@ -2,7 +2,7 @@
 
 /*
  * Adam Reid
- * December 10, 2015
+ * December 11, 2015
  */
 
 #include <stdlib.h>
@@ -43,6 +43,7 @@ void printCounts(CharCounts * root);
 CharCounts * sortCounts(CharCounts * root);
 int getLength(CharCounts * root);
 CharCounts * removeFront(CharCounts * root);
+int getLetterCount(CharCounts * counts, char letter);
 
 EncodingTree * createTree(CharCounts * counts);
 TreeQueue * createBranch(CharCounts * count);
@@ -54,3 +55,6 @@ int isEmpty(TreeQueue * root);
 TreeQueue * removeFromQueue(TreeQueue * root);
 void printTree(EncodingTree * root);
 void printQueue(TreeQueue * root);
+
+char * getBinaryCode(EncodingTree * root, CharCounts * counts, char * fileToOpen);
+char * getLetterCode(EncodingTree * root, char letter, int letterCount, char * currentCode, int currentLength);

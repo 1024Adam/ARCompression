@@ -2,7 +2,7 @@
 
 /*
  * Adam Ried
- * December 10, 2015
+ * December 11, 2015
  */
 
 #include <stdlib.h>
@@ -17,6 +17,11 @@ CharCounts * getCharCounts(char * fileToOpen)
     CharCounts * counts; 
 
     file = fopen(fileToOpen, "r");
+    if(file == NULL)
+    {
+        printf("Error: file could not be found\n");
+        exit(0);
+    }
     letter = '\0';
     counts = NULL;
 
@@ -114,6 +119,11 @@ CharCounts * createCount(char letter)
 {
     CharCounts * newCount;
     newCount = malloc(sizeof(CharCounts));
+    if(newCount == NULL)
+    {
+        printf("Error: not enough memory\n");
+        exit(0);
+    }
 
     newCount->letter = letter;
     newCount->count = 1;
@@ -218,6 +228,31 @@ CharCounts * removeFront(CharCounts * root)
     return(root);
 }
 
+int getLetterCount(CharCounts * counts, char letter)
+{
+    int letterCount;
+    CharCounts * temp;
+
+    letterCount = 0;
+    temp = counts;
+
+    while(temp != NULL && temp->letter != letter)
+    {
+        temp = temp->next;
+    }
+
+    if(temp->letter == letter)
+    {
+        return(temp->count);
+    }
+    else
+    {
+        return(0);
+    }
+
+    
+}
+
 EncodingTree * createTree(CharCounts * counts)
 {
     EncodingTree * root;
@@ -226,6 +261,7 @@ EncodingTree * createTree(CharCounts * counts)
     EncodingTree * temp1;
     EncodingTree * temp2;
     int nodeCount;
+    CharCounts * tempCount;
     
     root = NULL;
     queue = NULL;
@@ -233,11 +269,13 @@ EncodingTree * createTree(CharCounts * counts)
     temp1 = NULL;
     temp2 = NULL;
     nodeCount = 0;
+    tempCount = NULL;
 
-    while(counts != NULL)
+    tempCount = counts;
+    while(tempCount != NULL)
     {
-        toAdd = createBranch(counts);
-        counts = removeFront(counts);
+        toAdd = createBranch(tempCount);
+        tempCount = tempCount->next;
         queue = insertInQueue(queue, toAdd);
     }  
     /*printQueue(queue);*/
@@ -274,8 +312,18 @@ TreeQueue * createBranch(CharCounts * count)
     TreeQueue * branch;
 
     branch = malloc(sizeof(TreeQueue));
+    if(branch == NULL)
+    {
+        printf("Error: not enough memory\n");
+        exit(0);
+    }
 
     branch->root = malloc(sizeof(EncodingTree));
+    if(branch->root == NULL)
+    {
+        printf("Error: not enough memory\n");
+        exit(0);
+    }
     branch->root->letter = count->letter;
     branch->root->count = count->count;
     branch->root->lChild = NULL;
@@ -290,6 +338,11 @@ TreeQueue * createBranchFromTree(EncodingTree * root)
     TreeQueue * branch;
 
     branch = malloc(sizeof(TreeQueue));
+    if(branch == NULL)
+    {
+        printf("Error: not enough memory\n");
+        exit(0);
+    }
 
     branch->root = root;
     branch->next = NULL;
@@ -322,6 +375,11 @@ EncodingTree * insertInTree(EncodingTree * root, EncodingTree * toAdd)
 
     nodeCount = treeNodeCount(root);
     newRoot = malloc(sizeof(EncodingTree));
+    if(newRoot == NULL)
+    {
+        printf("Error: not enough memory\n");
+        exit(0);
+    }
     newRoot->letter = '\0';
     newRoot->count = root->count + toAdd->count;
 
@@ -426,4 +484,90 @@ void printQueue(TreeQueue * root)
         temp = temp->next;
     }
     /*printf("end\n");*/
+}
+
+char * getBinaryCode(EncodingTree * root, CharCounts * counts, char * fileToOpen)
+{
+    FILE * file;
+    char letter;
+    char * letterCode;
+    char * binaryString;
+    int binaryLength;
+    int letterCount;
+
+    letter = '\0';
+    letterCode = NULL;
+    binaryString = NULL;
+    binaryLength = 0;
+    letterCount = 0;
+
+    file = fopen(fileToOpen, "r");
+    if(file == NULL)
+    {
+        printf("Error: file could not be found\n");
+        exit(0);
+    }
+    
+    do
+    {
+        letter = fgetc(file);
+        if(letter != EOF)
+        {
+            /*printf("Letter: %c\n", letter);*/
+            letterCount = getLetterCount(counts, letter);
+            letterCode = getLetterCode(root, letter, letterCount, NULL, 0);
+            /*printf("LetterCode: %s\n", letterCode);*/
+            binaryLength += strlen(letterCode);
+            binaryString = reallocf(binaryString, (sizeof(char) * binaryLength));
+            if(binaryString == NULL)
+            {
+                printf("Error: not enough memory\n");
+                exit(0);
+            }
+            strcat(binaryString, letterCode);
+            free(letterCode);
+        }
+    }
+    while(letter != EOF);
+
+    return(binaryString);
+}
+
+char * getLetterCode(EncodingTree * root, char letter, int letterCount, char * currentCode, int currentLength)
+{
+    EncodingTree * temp;
+    char * letterCode;
+    int codeLength;
+
+    temp = root;
+    letterCode = currentCode;
+    codeLength = currentLength;
+
+    if(temp->letter == letter)
+    {
+        return(letterCode);
+    }
+    else
+    {
+        codeLength++;
+        letterCode = reallocf(letterCode, (sizeof(char) * codeLength));
+        if(letterCode == NULL)
+        {
+            printf("Error: not enough memory\n");
+            exit(0);
+        }
+        /* TODO will not work correctly; need to fix this section */
+        if(temp->count < letterCount)
+        {
+            strcat(letterCode, "0");
+            return(getLetterCode(temp->lChild, letter, letterCount, letterCode, codeLength));
+        }
+        else
+        {
+            strcat(letterCode, "1");
+            return(getLetterCode(temp->rChild, letter, letterCount, letterCode, codeLength));
+        } 
+    }
+
+    return(letterCode);
 }
