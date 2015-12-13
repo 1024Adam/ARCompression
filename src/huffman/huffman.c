@@ -656,7 +656,7 @@ char convertASCIICode(char * binString)
     return(strtol(binString, NULL, 2));
 }
 
-int encodeFile(char * rFileName)
+int encodechar * rFileName)
 {
     char * wFileName;
     CharCounts * counts;
@@ -681,4 +681,44 @@ int encodeFile(char * rFileName)
     /*printf("%s\n", encodedString);*/
 
     return(1);
+}
+
+int writeToFile(char * wFileName, char * string)
+{
+    FILE * wFile;
+
+    wFile = fopen(wFileName, "w");
+    if(wFile == NULL)
+    {
+        printf("Error: file could not be found\n");
+        exit(0);
+    }
+
+    /* TODO Get substrings from string, and write the ASCII letters to the file */
+
+    fclose(wFile);
+    
+    return(1);    
+}
+
+char * getSubstring(char * string, int start, int end)
+{
+    char * substring
+    int length;
+    int i;
+
+    substring = NULL;
+    length = 0;
+    i = 0;
+
+    length = end - start + 1;
+    substring = malloc(sizeof(char) * (length + 1));
+
+    for(i = 0; i < length; i++)
+    {
+        substring[i] = string[start + i];
+    }    
+    substring[i] = '\0';
+
+    return(substring);
 }

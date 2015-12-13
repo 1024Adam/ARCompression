@@ -63,4 +63,6 @@ char * getLetterCode(EncodingTree * root, char letter, char * currentCode, int c
 int isLetterInTree(EncodingTree * tree, char letter);
 char convertASCIICode(char * binString);
 
-int encodeFile(char * rFileName);
+int encode(char * rFileName);
+int writeToFile(char * wFileName, char * string);
+char * getSubstring(char * string, int start, int end);
