@@ -32,11 +32,14 @@ int main()
     /*printCounts(counts);*/
 
     encoding = getBinaryCode(tree, counts, "test.txt");
+    printf("%s\n", encoding);
 
     counts = freeCounts(counts);
     tree = freeTree(tree);
+    free(encoding);
+    encoding = NULL;
 
-    if(counts == NULL && tree == NULL)
+    if(counts == NULL && tree == NULL && encoding == NULL)
     {
         printf("All done\n");
     }
@@ -44,7 +47,6 @@ int main()
     {
         printf("Trouble freeing\n");
     }
-   
 
     return(0);
 }

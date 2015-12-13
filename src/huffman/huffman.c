@@ -543,11 +543,11 @@ char * getBinaryCode(EncodingTree * root, CharCounts * counts, char * fileToOpen
         letter = fgetc(file);
         if(letter != EOF)
         {
-            printf("Letter: %c\n", letter);
+            /*printf("Letter: %c\n", letter);*/
             letterCode = getLetterCode(root, letter, NULL, 0);
-            printf("LetterCode: %s\n", letterCode);
+            /*printf("LetterCode: %s\n", letterCode);*/
             binaryLength += strlen(letterCode);
-            printf("BinaryLength: %d\n", binaryLength);
+            /*printf("BinaryLength: %d\n", binaryLength);*/
             binaryString = reallocf(binaryString, (sizeof(char) * (binaryLength + 1)));
             if(binaryString == NULL)
             {
@@ -555,7 +555,7 @@ char * getBinaryCode(EncodingTree * root, CharCounts * counts, char * fileToOpen
                 exit(0);
             }
             strcat(binaryString, letterCode);
-            printf("BinaryString: %s\n", binaryString);
+            /*printf("BinaryString: %s\n", binaryString);*/
             free(letterCode);
             letterCode = NULL;
         }
