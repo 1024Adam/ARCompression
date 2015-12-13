@@ -2,7 +2,7 @@
 
 /*
  * Adam Ried
- * December 11, 2015
+ * December 13, 2015
  */
 
 #include <stdlib.h>
@@ -248,9 +248,16 @@ int getLetterCount(CharCounts * counts, char letter)
     else
     {
         return(0);
-    }
+    }    
+}
 
-    
+CharCounts * freeCounts(CharCounts * counts)
+{
+    while(counts != NULL)
+    {
+        counts = removeFront(counts);
+    }
+    return(NULL);
 }
 
 EncodingTree * createTree(CharCounts * counts)
@@ -486,6 +493,23 @@ void printQueue(TreeQueue * root)
     /*printf("end\n");*/
 }
 
+EncodingTree * freeTree(EncodingTree * tree)
+{
+    if(tree != NULL)
+    {
+        if(tree->lChild != NULL)
+        {
+            tree->lChild = freeTree(tree->lChild);
+        }
+        if(tree->rChild != NULL) 
+        {
+            tree->rChild = freeTree(tree->rChild);
+        }
+        free(tree);
+    }
+    return(NULL);
+}
+
 char * getBinaryCode(EncodingTree * root, CharCounts * counts, char * fileToOpen)
 {
     FILE * file;
@@ -493,13 +517,11 @@ char * getBinaryCode(EncodingTree * root, CharCounts * counts, char * fileToOpen
     char * letterCode;
     char * binaryString;
     int binaryLength;
-    int letterCount;
 
     letter = '\0';
     letterCode = NULL;
     binaryString = NULL;
     binaryLength = 0;
-    letterCount = 0;
 
     file = fopen(fileToOpen, "r");
     if(file == NULL)
@@ -508,40 +530,75 @@ char * getBinaryCode(EncodingTree * root, CharCounts * counts, char * fileToOpen
         exit(0);
     }
     
+    binaryString = malloc(sizeof(char));
+    if(binaryString == NULL)
+    {
+        printf("Error: not enough memory\n");
+        exit(0);
+    }
+    strcpy(binaryString, "");
+
     do
     {
         letter = fgetc(file);
         if(letter != EOF)
         {
-            /*printf("Letter: %c\n", letter);*/
-            letterCount = getLetterCount(counts, letter);
-            letterCode = getLetterCode(root, letter, letterCount, NULL, 0);
-            /*printf("LetterCode: %s\n", letterCode);*/
+            printf("Letter: %c\n", letter);
+            letterCode = getLetterCode(root, letter, NULL, 0);
+            printf("LetterCode: %s\n", letterCode);
             binaryLength += strlen(letterCode);
-            binaryString = reallocf(binaryString, (sizeof(char) * binaryLength));
+            printf("BinaryLength: %d\n", binaryLength);
+            binaryString = reallocf(binaryString, (sizeof(char) * (binaryLength + 1)));
             if(binaryString == NULL)
             {
                 printf("Error: not enough memory\n");
                 exit(0);
             }
             strcat(binaryString, letterCode);
+            printf("BinaryString: %s\n", binaryString);
             free(letterCode);
+            letterCode = NULL;
         }
     }
     while(letter != EOF);
 
+    fclose(file);
+
     return(binaryString);
 }
 
-char * getLetterCode(EncodingTree * root, char letter, int letterCount, char * currentCode, int currentLength)
+char * getLetterCode(EncodingTree * root, char letter, char * currentCode, int currentLength)
 {
     EncodingTree * temp;
     char * letterCode;
     int codeLength;
 
     temp = root;
-    letterCode = currentCode;
+    letterCode = NULL;
     codeLength = currentLength;
+
+    letterCode = malloc(sizeof(char) * (codeLength + 1));
+    if(letterCode == NULL)
+    {
+        printf("Error: not enough memory\n");
+        exit(0);
+    }
+
+    if(currentCode != NULL)
+    { 
+        strcpy(letterCode, currentCode);
+        free(currentCode);
+    }
+    else
+    {
+        /*printf("FirstRun\n");*/
+        strcpy(letterCode, "");
+    }
+
+    if(temp == NULL)
+    {
+        return(NULL);
+    }
 
     if(temp->letter == letter)
     {
@@ -550,24 +607,46 @@ char * getLetterCode(EncodingTree * root, char letter, int letterCount, char * c
     else
     {
         codeLength++;
-        letterCode = reallocf(letterCode, (sizeof(char) * codeLength));
+        letterCode = reallocf(letterCode, (sizeof(char) * (codeLength + 1)));
         if(letterCode == NULL)
         {
             printf("Error: not enough memory\n");
             exit(0);
         }
-        /* TODO will not work correctly; need to fix this section */
-        if(temp->count < letterCount)
+        if(isLetterInTree(temp->lChild, letter) == 1)
         {
             strcat(letterCode, "0");
-            return(getLetterCode(temp->lChild, letter, letterCount, letterCode, codeLength));
+            /*printf("Curent Code: %s\n", letterCode);*/
+            return(getLetterCode(temp->lChild, letter, letterCode, codeLength));
+        }
+        else if(isLetterInTree(temp->rChild, letter) == 1)
+        {
+            strcat(letterCode, "1");
+            /*printf("Curent Code: %s\n", letterCode);*/
+            return(getLetterCode(temp->rChild, letter, letterCode, codeLength));
         }
         else
         {
-            strcat(letterCode, "1");
-            return(getLetterCode(temp->rChild, letter, letterCount, letterCode, codeLength));
-        } 
+            return(NULL);
+        }
     }
+}
 
-    return(letterCode);
+int isLetterInTree(EncodingTree * tree, char letter)
+{
+   if(tree == NULL)
+   {
+       return(0);
+   } 
+   else
+   {
+       if(tree->letter == letter)
+       {
+           return(1);
+       }
+       else
+       {
+           return(isLetterInTree(tree->lChild, letter) | isLetterInTree(tree->rChild, letter));
+       }
+   }
 }

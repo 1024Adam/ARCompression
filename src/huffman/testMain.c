@@ -2,7 +2,7 @@
 
 /*
  * Adam Reid
- * December 10, 2015
+ * December 13, 2015
  */
 
 #include <stdio.h>
@@ -13,22 +13,38 @@ int main()
     CharCounts * counts;
     EncodingTree * tree;
     int length;
+    char * encoding;
 
     counts = getCharCounts("test.txt");
     length = 0;
 
-    printCounts(counts);
+    /*printCounts(counts);*/
     length = getLength(counts);
-    printf("\nLength: %d\n\n", length);
-
+    /*printf("\nLength: %d\n\n", length);*/
     counts = sortCounts(counts);
-
-    printCounts(counts);
+    /*printCounts(counts);*/
     length = getLength(counts);
-    printf("\nLength: %d\n\n", length);
+    /*printf("\nLength: %d\n\n", length);*/
 
     tree = createTree(counts);
-    printTree(tree);
+    /*printTree(tree);
+    printf("End of Tree\n");*/
+    /*printCounts(counts);*/
+
+    encoding = getBinaryCode(tree, counts, "test.txt");
+
+    counts = freeCounts(counts);
+    tree = freeTree(tree);
+
+    if(counts == NULL && tree == NULL)
+    {
+        printf("All done\n");
+    }
+    else
+    {
+        printf("Trouble freeing\n");
+    }
+   
 
     return(0);
 }
