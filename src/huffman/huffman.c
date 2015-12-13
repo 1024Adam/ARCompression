@@ -656,7 +656,7 @@ char convertASCIICode(char * binString)
     return(strtol(binString, NULL, 2));
 }
 
-int encodechar * rFileName)
+int encode(char * rFileName)
 {
     char * wFileName;
     CharCounts * counts;
@@ -703,7 +703,7 @@ int writeToFile(char * wFileName, char * string)
 
 char * getSubstring(char * string, int start, int end)
 {
-    char * substring
+    char * substring;
     int length;
     int i;
 

@@ -40,7 +40,7 @@ int main()
     encoding = NULL;
 
     if(counts == NULL && tree == NULL && encoding == NULL)
-    i
+    {
         printf("All done\n");
     }
     else
