@@ -61,3 +61,6 @@ EncodingTree * freeTree(EncodingTree * tree);
 char * getBinaryCode(EncodingTree * root, CharCounts * counts, char * fileToOpen);
 char * getLetterCode(EncodingTree * root, char letter, char * currentCode, int currentLength);
 int isLetterInTree(EncodingTree * tree, char letter);
+char convertASCIICode(char * binString);
+
+int encodeFile(char * rFileName);

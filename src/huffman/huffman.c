@@ -650,3 +650,35 @@ int isLetterInTree(EncodingTree * tree, char letter)
        }
    }
 }
+
+char convertASCIICode(char * binString)
+{
+    return(strtol(binString, NULL, 2));
+}
+
+int encodeFile(char * rFileName)
+{
+    char * wFileName;
+    CharCounts * counts;
+    EncodingTree * tree;
+    char * encodedString;
+
+    wFileName = NULL;
+    counts = NULL;
+    tree = NULL;
+    encodedString = NULL;    
+
+    wFileName = malloc(sizeof(char) * (strlen(rFileName) + 5));
+    strcpy(wFileName, rFileName);
+    strcat(wFileName, ".arc");
+
+    counts = getCharCounts(rFileName);
+    counts = sortCounts(counts);
+
+    tree = createTree(counts);
+
+    encodedString = getBinaryCode(tree, counts, rFileName);
+    /*printf("%s\n", encodedString);*/
+
+    return(1);
+}
