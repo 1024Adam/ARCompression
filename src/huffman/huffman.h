@@ -8,7 +8,11 @@
 #ifndef HUFFMAN
 #define HUFFMAN
 
-#include "arCompress.h"
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include "charCounts.h"
+#include "encodingTree.h"
 
 char * getBinaryCode(EncodingTree * root, CharCounts * counts, char * fileToOpen);
 char * getLetterCode(EncodingTree * root, char letter, char * currentCode, int currentLength);

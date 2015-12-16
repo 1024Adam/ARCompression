@@ -8,7 +8,9 @@
 #ifndef CHAR_COUNTS
 #define CHAR_COUNTS
 
-#include "arCompress.h"
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 typedef struct CharCounts
 {
