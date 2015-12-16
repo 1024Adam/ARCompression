@@ -249,7 +249,7 @@ int getLetterCount(CharCounts * counts, char letter)
     }   
 }
 
-CharCounts * freeCount(CharCounts * counts)
+CharCounts * freeCounts(CharCounts * counts)
 {
     while(counts != NULL)
     {
