@@ -16,6 +16,7 @@ public class CompressListener implements ActionListener
     private JButton listenButton;
     private JButton submit;
 
+    /* Contructors */
     public CompressListener(JButton actionButton, JButton listenButton, JButton submit)
     {
         this.actionButton = actionButton;
@@ -23,6 +24,7 @@ public class CompressListener implements ActionListener
         this.submit = submit;
     }
 
+    /* When Compress/Decompress button is clicked */
     @Override
     public void actionPerformed(ActionEvent e) 
     {

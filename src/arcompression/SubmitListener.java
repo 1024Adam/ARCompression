@@ -12,7 +12,8 @@ import javax.swing.*;
 public class SubmitListener implements ActionListener 
 {
     private JTextArea textArea;
-
+    
+    /* Constructors */
     public SubmitListener(JTextArea textArea)
     {
         this.textArea = textArea;
@@ -21,6 +22,7 @@ public class SubmitListener implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e) 
     {
+        /* TODO: Action the compress/decompress feature */
         if(textArea.getText().equalsIgnoreCase(""))
         {
             textArea.setText("You pressed the button");

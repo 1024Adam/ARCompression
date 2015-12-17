@@ -16,8 +16,10 @@ public class FileCompScreen extends JFrame
     public static final int WIDTH = 300;
     public static final int HEIGHT = 225;
 
+    /* Constructors */
     public FileCompScreen()
     {
+        /* Set basic window settings */
         super();
         setSize(WIDTH, HEIGHT);
         setTitle("ARCompression");

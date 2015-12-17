@@ -7,6 +7,12 @@
 
 #include "charCounts.h"
 
+/* 
+ * getCharCounts
+ * Function: Read file, and record the count of each character into a CharCounts variable
+ * Parameters: The string literal of the file you wish to read
+ * Return: The counts of every character in the file
+ */ 
 CharCounts * getCharCounts(char * fileToOpen)
 {
     FILE * file;
@@ -31,10 +37,12 @@ CharCounts * getCharCounts(char * fileToOpen)
 
             if(isCounted(counts, letter) == 0)
             {
+                /* Character is not counted yet */
                 counts = addChar(counts, letter);
             }
             else
             {
+                /* Character has been counted before */
                 counts = addCount(counts, letter);
             }
         }
@@ -46,6 +54,13 @@ CharCounts * getCharCounts(char * fileToOpen)
     return(counts);
 }
 
+/*
+ * isCounted
+ * Function: Identify whether the character has been counted before or not
+ * Parameters: The list of characters counted and the character in question
+ * Return: 1 - The character has been counted already
+ *         0 - The character has not been counted yet
+ */
 int isCounted(CharCounts * root, char letter)
 {
     CharCounts * temp;
@@ -66,6 +81,12 @@ int isCounted(CharCounts * root, char letter)
     }
 }
 
+/* 
+ * createCount
+ * Function: Create a new CharCount variable with the new letter 
+ * Parameters: The letter to create the count from
+ * Return: The new CharCount variable 
+ */
 CharCounts * createCount(char letter)
 {
     CharCounts * newCount;

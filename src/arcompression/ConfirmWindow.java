@@ -13,7 +13,8 @@ import javax.swing.*;
 public class ConfirmWindow extends JFrame
 {
     private static final long serialVersionUID = 1L;
-
+    
+    /* Constructors */
     public ConfirmWindow()
     {
         setSize(210, 100);
