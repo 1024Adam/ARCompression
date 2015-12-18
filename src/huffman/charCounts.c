@@ -2,7 +2,7 @@
 
 /*
  * Adam Reid
- * December 15, 2015
+ * December 17, 2015
  */
 
 #include "charCounts.h"
@@ -57,7 +57,7 @@ CharCounts * getCharCounts(char * fileToOpen)
 /*
  * isCounted
  * Function: Identify whether the character has been counted before or not
- * Parameters: The list of characters counted and the character in question
+ * Parameters: The list of characters counted; The character in question
  * Return: 1 - The character has been counted already
  *         0 - The character has not been counted yet
  */
@@ -105,6 +105,12 @@ CharCounts * createCount(char letter)
     return(newCount);
 }
 
+/*
+ * addChar
+ * Function: Add a new CharCount to the current list
+ * Parameters: The current list of CharCounts; The CharCount to add
+ * Return: The new updated list of CharCounts 
+ */
 CharCounts * addChar(CharCounts * root, char toAdd)
 {
     CharCounts * temp;
@@ -130,6 +136,12 @@ CharCounts * addChar(CharCounts * root, char toAdd)
     }
 }
 
+/*
+ * addCount
+ * Function: Increment the count of a current CharCount
+ * Parameters: The list of CharCounts; The letter of the CharCount to increment the count for
+ * Return: The new updated list of CharCounts
+ */
 CharCounts * addCount(CharCounts * root, char letter)
 {
     CharCounts * temp;
@@ -151,6 +163,12 @@ CharCounts * addCount(CharCounts * root, char letter)
     }
 }
 
+/*
+ * printCounts
+ * Function: Print out the current list of CharCounts
+ * Parameters: The current list of CharCounts
+ * Return: void
+ */
 void printCounts(CharCounts * root)
 {
     CharCounts * temp;
@@ -163,6 +181,12 @@ void printCounts(CharCounts * root)
     }
 }
 
+/*
+ * sortCounts
+ * Function: Sort the current list of CharCounts from least to greatest count
+ * Parameters: The current list of CharCounts
+ * Return: The sorted list of CharCounts
+ */
 CharCounts * sortCounts(CharCounts * root)
 {
     CharCounts * temp;
@@ -172,7 +196,7 @@ CharCounts * sortCounts(CharCounts * root)
     temp = root;
     done = 0;
 
-    while(done == 0)
+    while(done == 0) /* if done is zero, then there was a swap performed on the last pass */
     {
         done = 1;
         temp = root;
@@ -218,6 +242,12 @@ CharCounts * sortCounts(CharCounts * root)
     return(root);
 }
 
+/*
+ * getLength
+ * Function: Get the current number of CharCounts in the list
+ * Parameters: The list of CharCounts
+ * Return: The number of CharCounts in the list 
+ */
 int getLength(CharCounts * root)
 {
     CharCounts * temp;
@@ -235,6 +265,12 @@ int getLength(CharCounts * root)
     return(length);
 }
 
+/*
+ * removeFront
+ * Function: Removes and frees the first CharCount in the list
+ * Parameters: The current list of CharCounts
+ * Return: The new list of CharCounts with the first removed
+ */
 CharCounts * removeFront(CharCounts * root)
 {
     CharCounts * toRemove;
@@ -246,6 +282,12 @@ CharCounts * removeFront(CharCounts * root)
     return(root);
 }
 
+/*
+ * getLetterCount
+ * Function: Get the current character count of the character given
+ * Parameters: The list of CharCounts; The character in question
+ * Return: The character count of the character given
+ */
 int getLetterCount(CharCounts * counts, char letter)
 {
     int letterCount;
@@ -254,8 +296,8 @@ int getLetterCount(CharCounts * counts, char letter)
     letterCount = 0;
     temp = counts;
 
+    /* find the letter passed */
     while(temp != NULL && temp->letter != letter)
-
     {
         temp = temp->next;
     }
@@ -270,6 +312,12 @@ int getLetterCount(CharCounts * counts, char letter)
     }   
 }
 
+/* 
+ * freeCounts
+ * Function: Remove and free all of the CharCounts in the list of CharCounts
+ * Parameters: The list of CharCounts
+ * Return: NULL
+ */
 CharCounts * freeCounts(CharCounts * counts)
 {
     while(counts != NULL)
