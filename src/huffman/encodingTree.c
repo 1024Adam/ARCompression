@@ -7,6 +7,12 @@
 
 #include "encodingTree.h"
 
+/*
+ * createTree
+ * Function: Uses a CharCounts list to create a min-heap Huffman binary tree
+ * Parameters: The CharCounts list to use
+ * Return: The min-heap Huffman binary tree
+ */
 EncodingTree * createTree(CharCounts * counts)
 {
     EncodingTree * root;
@@ -24,7 +30,8 @@ EncodingTree * createTree(CharCounts * counts)
     temp2 = NULL;
     nodeCount = 0;
     tempCount = NULL;
-
+ 
+    /* Insert all CharCounts into the TreeQueue (sorted least to greatest) */
     tempCount = counts;
     while(tempCount != NULL)
     {
@@ -34,6 +41,11 @@ EncodingTree * createTree(CharCounts * counts)
     }
     /*printQueue(queue);*/
     toAdd = NULL;
+    /* 
+     * Remove from the TreeQueue, TWO AT A TIME, to create a singular binary tree, 
+     * and insert back into sorted queue accordingly 
+     * Continue until there is nothing left in the queue
+     */
     while(isEmpty(queue) == 0)
     {
         /*printf("boom\n");*/
@@ -61,6 +73,12 @@ EncodingTree * createTree(CharCounts * counts)
     return(root);
 }
 
+/*
+ * treeNodeCount
+ * Function: Count the number of nodes contained in the EncodingTree passed
+ * Parameters: The EncodingTree to count the nodes in
+ * Return: The count of the number of nodes in the EncodingTree
+ */
 int treeNodeCount(EncodingTree * root)
 {
     EncodingTree * temp;
@@ -79,6 +97,12 @@ int treeNodeCount(EncodingTree * root)
     }
 }
 
+/*
+ * insertInTree
+ * Function: Take the two EncodingTrees passed, and combine them into one EncodingTree
+ * Parameters: The original EncodingTree; The EncodingTree to combine with the original
+ * Return: The new EncodingTree, containing the two EncodingTrees passed
+ */
 EncodingTree * insertInTree(EncodingTree * root, EncodingTree * toAdd)
 {
     int nodeCount;
@@ -107,6 +131,12 @@ EncodingTree * insertInTree(EncodingTree * root, EncodingTree * toAdd)
     }
 }
 
+/* 
+ * printTree
+ * Function: Print the contents of the tree, using the pre-order method to print them 
+ * Parameters: The EncodingTree to print
+ * Return: void
+ */
 void printTree(EncodingTree * root)
 {
     if(root != NULL)
@@ -122,6 +152,12 @@ void printTree(EncodingTree * root)
     }
 }
 
+/* 
+ * freeTree
+ * Function: Remove, and free all of the nodes within the EncodingTree passed
+ * Parameters: The EncodingTree to free
+ * Return: NULL
+ */
 EncodingTree * freeTree(EncodingTree * tree)
 {
     if(tree != NULL)
@@ -139,6 +175,12 @@ EncodingTree * freeTree(EncodingTree * tree)
     return(NULL);
 }
 
+/* 
+ * createBranch
+ * Function: Create a new "branch" to insert into the TreeQueue
+ * Parameters: The CharCount to be used to create the branch
+ * Return: The new branch for the TreeQueue
+ */
 TreeQueue * createBranch(CharCounts * count)
 {
     TreeQueue * branch;
@@ -165,6 +207,12 @@ TreeQueue * createBranch(CharCounts * count)
     return(branch);
 }
 
+/*
+ * createBranchFromTree
+ * Function: Create a new "branch" to insert into the TreeQueue
+ * Parameters: The EncodingTree to be used to create the branch
+ * Return: The new branch for the TreeQueue
+ */
 TreeQueue * createBranchFromTree(EncodingTree * root)
 {
     TreeQueue * branch;
@@ -182,6 +230,12 @@ TreeQueue * createBranchFromTree(EncodingTree * root)
     return(branch);
 }
 
+/* 
+ * insertInQueue
+ * Function: Insert the new TreeQueue item into the current TreeQueue, maintaining the least to greatest sorting
+ * Parameters: The original TreeQueue; The TreeQueue item to add
+ * Return: The updated TreeQueue item
+ */
 TreeQueue * insertInQueue(TreeQueue * root, TreeQueue * toAdd)
 {
     TreeQueue * temp;
@@ -189,7 +243,8 @@ TreeQueue * insertInQueue(TreeQueue * root, TreeQueue * toAdd)
 
     /*printf("ToAdd\n");
     printQueue(toAdd);*/
-
+ 
+    /* Find the insertion point */
     while(temp != NULL && temp->next != NULL && temp->root->count < toAdd->root->count)
     {   
         temp = temp->next;
@@ -217,6 +272,13 @@ TreeQueue * insertInQueue(TreeQueue * root, TreeQueue * toAdd)
     }   
 }
 
+/*
+ * isEmpty
+ * Function: Check to see if the queue has any items in it
+ * Parameters: The TreeQueue in question
+ * Return: 1 - The TreeQueue IS empty
+ *         0 - The TreeQueue IS NOT empty
+ */
 int isEmpty(TreeQueue * root)
 {
     if(root == NULL)
@@ -229,6 +291,12 @@ int isEmpty(TreeQueue * root)
     }   
 }
 
+/*
+ * removeFromQueue
+ * Function: Removes the first item from the TreeQueue, and frees the removed item
+ * Parameters: The TreeQueue to remove from
+ * Return: The updated TreeQueue
+ */
 TreeQueue * removeFromQueue(TreeQueue * root)
 {
     TreeQueue * temp;
@@ -240,6 +308,12 @@ TreeQueue * removeFromQueue(TreeQueue * root)
     return(root);
 }
 
+/*
+ * printQueue
+ * Function: Print out all of the TreeQueue items, in the order that they appear in the queue
+ * Parameters: The TreeQueue to print
+ * Return: void
+ */
 void printQueue(TreeQueue * root)
 {
     TreeQueue * temp;

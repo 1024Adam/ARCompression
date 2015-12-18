@@ -7,7 +7,13 @@
 
 #include "huffman.h"
 
-char * getBinaryCode(EncodingTree * root, CharCounts * counts, char * fileToOpen)
+/* 
+ * getBinaryCode
+ * Function: Retrieve the character read from the file as a binary code (using the EncodingTree)
+ * Parameters: The EncodingTree to retreive the binary codes from; The string literal of the file path name
+ * Return: The full binary code of the file
+ */
+char * getBinaryCode(EncodingTree * root, char * fileToOpen)
 {
     FILE * file;
     char letter;
@@ -174,7 +180,7 @@ int encode(char * rFileName)
 
     tree = createTree(counts);
 
-    encodedString = getBinaryCode(tree, counts, rFileName);
+    encodedString = getBinaryCode(tree, rFileName);
     /*printf("%s\n", encodedString);*/
 
     return(1);

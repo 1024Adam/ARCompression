@@ -31,7 +31,7 @@ int main()
     printf("End of Tree\n");*/
     /*printCounts(counts);*/
 
-    encoding = getBinaryCode(tree, counts, "test.txt");
+    encoding = getBinaryCode(tree, "test.txt");
     printf("%s\n", encoding);
 
     counts = freeCounts(counts);
