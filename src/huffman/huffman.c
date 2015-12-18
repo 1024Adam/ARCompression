@@ -70,6 +70,13 @@ char * getBinaryCode(EncodingTree * root, char * fileToOpen)
     return(binaryString);
 }
 
+/*
+ * getLetterCode
+ * Function: Get the binary code for the individual letter passed 
+ * Parameters: The EncodingTree to retrieve the binary code from; The letter to retrieve the binary code for;
+ *             The current running binary code of the letter; The current running length of the binary code
+ * Return: The binary code for the letter passed
+ */
 char * getLetterCode(EncodingTree * root, char letter, char * currentCode, int currentLength)
 {
     EncodingTree * temp;
@@ -116,13 +123,13 @@ char * getLetterCode(EncodingTree * root, char letter, char * currentCode, int c
             printf("Error: not enough memory\n");
             exit(0);
         }
-        if(isLetterInTree(temp->lChild, letter) == 1)
+        if(isLetterInTree(temp->lChild, letter) == 1) /* If in the left child, add a '0', and move to the left child */
         {
             strcat(letterCode, "0");
             /*printf("Curent Code: %s\n", letterCode);*/
             return(getLetterCode(temp->lChild, letter, letterCode, codeLength));
         }
-        else if(isLetterInTree(temp->rChild, letter) == 1)
+        else if(isLetterInTree(temp->rChild, letter) == 1) /* If in the right child, add a '1', and move to the right child */
         {
             strcat(letterCode, "1");
             /*printf("Curent Code: %s\n", letterCode);*/
@@ -135,6 +142,13 @@ char * getLetterCode(EncodingTree * root, char letter, char * currentCode, int c
     }
 }
 
+/* 
+ * isLetterInTree
+ * Function: find if the letter passed is contatined in the EncodingTree
+ * Parameters: the EncodingTree to search in; The letter in question
+ * Return: 1 - The letter IS in the EncodingTree
+ *         0 - The letter IS NOT in the EncodingTree
+ */
 int isLetterInTree(EncodingTree * tree, char letter)
 {
    if(tree == NULL)
@@ -154,11 +168,24 @@ int isLetterInTree(EncodingTree * tree, char letter)
    }
 }
 
+/*
+ * convertASCIICode
+ * Function: Convert the binary code (as a string) into a character value
+ * Parameters: The binary string to be converted
+ * Return: The binary value as a character 
+ */
 char convertASCIICode(char * binString)
 {
     return(strtol(binString, NULL, 2));
 }
 
+/*
+ * encode
+ * Function: Convert the entire file passed into an encoded string, and write the string to a new file
+ * Parameters: The file path as a string literal to read from
+ * Return: 1 - On success
+ *         0 - On failure
+ */
 int encode(char * rFileName)
 {
     char * wFileName;
@@ -186,6 +213,13 @@ int encode(char * rFileName)
     return(1);
 }
 
+/*
+ * writeToFile
+ * Function: Write the encoded string to the new file
+ * Parameters: The string literal of the new file path name; The encoded string to write to the file
+ * Return: 1 - On success
+ *         0 - On failure
+ */
 int writeToFile(char * wFileName, char * string)
 {
     FILE * wFile;
@@ -204,6 +238,13 @@ int writeToFile(char * wFileName, char * string)
     return(1);    
 }
 
+/* 
+ * getSubstring
+ * Function: Retrieve a substring of the given string from the start number to the end number
+ * Parameters: The string to get the substring from; the start character position;
+               The end character position
+ * Return: The substring from start to end
+ */
 char * getSubstring(char * string, int start, int end)
 {
     char * substring;
