@@ -192,13 +192,20 @@ int encode(char * rFileName)
     CharCounts * counts;
     EncodingTree * tree;
     char * encodedString;
+    int success;
 
     wFileName = NULL;
     counts = NULL;
     tree = NULL;
-    encodedString = NULL;    
+    encodedString = NULL;
+    success = 0;    
 
     wFileName = malloc(sizeof(char) * (strlen(rFileName) + 5));
+    if(wFileName == NULL)
+    {
+        printf("Error: not enough memory\n");
+        exit(0);
+    }
     strcpy(wFileName, rFileName);
     strcat(wFileName, ".arc");
 
@@ -210,7 +217,12 @@ int encode(char * rFileName)
     encodedString = getBinaryCode(tree, rFileName);
     /*printf("%s\n", encodedString);*/
 
-    return(1);
+    success = writeToFile(wFileName, encodedString);
+
+    counts = freeCounts(counts);
+    tree = freeTree(tree);
+
+    return(success);
 }
 
 /*
@@ -223,6 +235,15 @@ int encode(char * rFileName)
 int writeToFile(char * wFileName, char * string)
 {
     FILE * wFile;
+    int length;
+    int i;
+    char * substring;
+    char letter;
+ 
+    length = 0;
+    i = 0;
+    substring = NULL;
+    letter = '\0';
 
     wFile = fopen(wFileName, "w");
     if(wFile == NULL)
@@ -232,7 +253,13 @@ int writeToFile(char * wFileName, char * string)
     }
 
     /* TODO Get substrings from string, and write the ASCII letters to the file */
-
+    length = strlen(string);
+    for(i = 0; i < length; i += 8)
+    {
+        substring = getSubstring(string, i, i + 7);
+        letter = convertASCIICode(substring);
+        fprintf(wFile, "%c", letter);
+    }
     fclose(wFile);
     
     return(1);    
