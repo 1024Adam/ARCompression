@@ -215,7 +215,7 @@ int encode(char * rFileName)
     tree = createTree(counts);
 
     encodedString = getBinaryCode(tree, rFileName);
-    printf("%s\n", encodedString);
+    /*printf("%s\n", encodedString);*/
 
     success = writeToFile(wFileName, encodedString, tree);
 
@@ -257,17 +257,18 @@ int writeToFile(char * wFileName, char * string, EncodingTree * tree)
     for(i = 0; i < length; i += 8)
     {
         substring = getSubstring(string, i, i + 7);
-        printf("substring %d to %d: %s\n", i, i + 7, substring);
+        /*printf("substring %d to %d: %s\n", i, i + 7, substring);*/
         letter = convertASCIICode(substring);
-        printf("Resulting letter: %c\n\n", letter);
+        /*printf("Resulting letter: %c\n\n", letter);*/
         fprintf(wFile, "%c", letter);
     }
     fprintf(wFile, "\n:ARC:\n");
     length = strlen(substring);
     fprintf(wFile, "%d\n", length);
-
     filePrintTree(wFile, tree);
     
+    printf("The file has been encoded to %s\n", wFileName);
+
     fclose(wFile);
     
     return(1);    
@@ -308,6 +309,11 @@ char * getSubstring(char * string, int start, int end)
 
     length = end - start + 1;
     substring = malloc(sizeof(char) * (length + 1));
+    if(substring == NULL)
+    {
+        printf("Error: not enough memory\n");
+        exit(0);
+    }
 
     for(i = 0; i < length; i++)
     {
