@@ -20,7 +20,8 @@ int isLetterInTree(EncodingTree * tree, char letter);
 char convertASCIICode(char * binString);
 
 int encode(char * rFileName);
-int writeToFile(char * wFileName, char * string);
+int writeToFile(char * wFileName, char * string, EncodingTree * tree);
+void filePrintTree(FILE * wFile, EncodingTree * tree);
 char * getSubstring(char * string, int start, int end);
 
 #endif

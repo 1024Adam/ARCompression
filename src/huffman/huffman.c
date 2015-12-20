@@ -215,9 +215,9 @@ int encode(char * rFileName)
     tree = createTree(counts);
 
     encodedString = getBinaryCode(tree, rFileName);
-    /*printf("%s\n", encodedString);*/
+    printf("%s\n", encodedString);
 
-    success = writeToFile(wFileName, encodedString);
+    success = writeToFile(wFileName, encodedString, tree);
 
     counts = freeCounts(counts);
     tree = freeTree(tree);
@@ -232,7 +232,7 @@ int encode(char * rFileName)
  * Return: 1 - On success
  *         0 - On failure
  */
-int writeToFile(char * wFileName, char * string)
+int writeToFile(char * wFileName, char * string, EncodingTree * tree)
 {
     FILE * wFile;
     int length;
@@ -252,17 +252,41 @@ int writeToFile(char * wFileName, char * string)
         exit(0);
     }
 
-    /* TODO Get substrings from string, and write the ASCII letters to the file */
+    /* Greab each substring of 8 characters, and write the ASCII value to the file */
     length = strlen(string);
     for(i = 0; i < length; i += 8)
     {
         substring = getSubstring(string, i, i + 7);
+        printf("substring %d to %d: %s\n", i, i + 7, substring);
         letter = convertASCIICode(substring);
+        printf("Resulting letter: %c\n\n", letter);
         fprintf(wFile, "%c", letter);
     }
+    fprintf(wFile, "\n:ARC:\n");
+    length = strlen(substring);
+    fprintf(wFile, "%d\n", length);
+
+    filePrintTree(wFile, tree);
+    
     fclose(wFile);
     
     return(1);    
+}
+
+/*
+ * filePrintTree
+ * Function: Print the contents of the tree to a file in a compressed format
+ * Parameters: The file to write to; The tree to print
+ * Return: void 
+ */
+void filePrintTree(FILE * wFile, EncodingTree * tree)
+{
+    if(tree != NULL)
+    {
+        fprintf(wFile, "%c,", tree->letter);
+        filePrintTree(wFile, tree->lChild);
+        filePrintTree(wFile, tree->rChild);
+    }
 }
 
 /* 
