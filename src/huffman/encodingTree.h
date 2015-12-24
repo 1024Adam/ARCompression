@@ -60,8 +60,8 @@ int isEmpty(TreeQueue * root);
 TreeQueue * removeFromQueue(TreeQueue * root);
 void printQueue(TreeQueue * root);
 
-SearchTreeList * createSearchList(SearchTreeList * head, EncodingTree * eTree);
+SearchTreeList * createSearchList(SearchTreeList * head, EncodingTree * eTree, char * currentCode, int codeLength);
 SearchTree * createSearchNode(EncodingTree * eTree, char * letterCode);
-SearchTreeList * insertSearchNode(SearchTreeList head, SearchTree * toAdd);
+SearchTreeList * insertSearchNode(SearchTreeList * head, SearchTree * toAdd);
 
 #endif

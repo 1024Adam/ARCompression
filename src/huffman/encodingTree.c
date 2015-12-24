@@ -337,23 +337,49 @@ void printQueue(TreeQueue * root)
  * Parameters: The EncodingTree to create the seaarch tree list with
  * Return: The binary search tree list
  */
-SearchTreeList * createSearchList(SearchTreeList head, EncodingTree * eTree)
+SearchTreeList * createSearchList(SearchTreeList * head, EncodingTree * eTree, char * currentCode, int currentLength)
 {
-    SearchTreeList * temp;
+    SearchTree * temp;
     EncodingTree * tempETree;
+    char * letterCode;
+    int codeLength;
 
     temp = NULL;
     tempETree = eTree;
+    letterCode = NULL;
+    codeLength = currentLength;
 
+    letterCode = malloc(sizeof(char) * (codeLength + 1));
+    if(letterCode == NULL)
+    {
+        printf("Error: not enough memory\n");
+        exit(0);
+    }
+    if(currentCode == NULL)
+    {
+        strcpy(letterCode, "");
+    }
+    else
+    {
+        /*printf("First Run\n");*/
+        strcpy(letterCode, currentCode);
+    }
     if(tempETree->lChild == NULL && tempETree->rChild == NULL)
     {
-        temp = createSearchNode(tempETree);
+        temp = createSearchNode(tempETree, letterCode);
         head = insertSearchNode(head, temp);
     }
     else
     {
-        head = createSearchList(head, tempETree->lChild);
-        head = createSearchList(head, tempETree->rChild);
+        codeLength++;
+        /*printf("CodeLength: %d\n", codeLength);*/
+        letterCode = reallocf(letterCode, (sizeof(char) * (codeLength + 1)));
+        letterCode[codeLength - 1] = '0';
+        /*printf("CurrentLetterCode: %s\n", letterCode);*/
+        head = createSearchList(head, tempETree->lChild, letterCode, codeLength);
+        letterCode[codeLength - 1] = '1';
+        /*printf("CurrentLetterCode: %s\n", letterCode);*/
+        head = createSearchList(head, tempETree->rChild, letterCode, codeLength);
     }
 
     return(head);
@@ -384,13 +410,29 @@ SearchTreeList * insertSearchNode(SearchTreeList * head, SearchTree * toAdd)
     newNode->sTree = toAdd;
     newNode->next = NULL;
 
-    while(temp->next != NULL && toAdd->count <= temp->next->sTree->count)
+    if(head == NULL)
+    {
+        return(newNode);
+    }
+    while(temp->next != NULL && toAdd->count >= temp->next->sTree->count)
     {
         temp = temp->next;
     }
+    if(toAdd->count < temp->sTree->count)
+    {
+        newNode->next = temp;
+        return(newNode);
+    }
+    else
+    {
+        newNode->next = temp->next;
+        temp->next = newNode;
 
-    newNode->next = temp->next;
-    temp->next = newNode;
-
-    return(head);
+        return(head);
+    }
 }
+
+/*SearchTree * createSearchTree(SearchTreeList * head)
+{
+
+}*/

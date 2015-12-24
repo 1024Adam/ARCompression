@@ -2,7 +2,7 @@
 
 /*
  * Adam Reid
- * December 15, 2015
+ * December 24, 2015
  */
 
 #include "huffman.h"
@@ -193,12 +193,14 @@ int encode(char * rFileName)
     EncodingTree * tree;
     char * encodedString;
     int success;
+    SearchTreeList * sTreeList;
 
     wFileName = NULL;
     counts = NULL;
     tree = NULL;
     encodedString = NULL;
     success = 0;    
+    sTreeList = NULL;
 
     wFileName = malloc(sizeof(char) * (strlen(rFileName) + 5));
     if(wFileName == NULL)
@@ -213,6 +215,13 @@ int encode(char * rFileName)
     counts = sortCounts(counts);
 
     tree = createTree(counts);
+
+    sTreeList = createSearchList(sTreeList, tree, NULL, 0);
+    while(sTreeList != NULL)
+    { 
+        printf("%c, %d, %s\n", sTreeList->sTree->letter, sTreeList->sTree->count, sTreeList->sTree->letterCode);
+        sTreeList = sTreeList->next;
+    }
 
     encodedString = getBinaryCode(tree, rFileName);
     /*printf("%s\n", encodedString);*/
