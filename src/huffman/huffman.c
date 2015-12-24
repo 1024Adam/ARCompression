@@ -194,6 +194,7 @@ int encode(char * rFileName)
     char * encodedString;
     int success;
     SearchTreeList * sTreeList;
+    SearchTree * sTree;
 
     wFileName = NULL;
     counts = NULL;
@@ -201,6 +202,7 @@ int encode(char * rFileName)
     encodedString = NULL;
     success = 0;    
     sTreeList = NULL;
+    sTree = NULL;
 
     wFileName = malloc(sizeof(char) * (strlen(rFileName) + 5));
     if(wFileName == NULL)
@@ -217,11 +219,8 @@ int encode(char * rFileName)
     tree = createTree(counts);
 
     sTreeList = createSearchList(sTreeList, tree, NULL, 0);
-    while(sTreeList != NULL)
-    { 
-        printf("%c, %d, %s\n", sTreeList->sTree->letter, sTreeList->sTree->count, sTreeList->sTree->letterCode);
-        sTreeList = sTreeList->next;
-    }
+    sTree = createSearchTree(sTreeList);
+    /*printSearchTree(sTree);*/
 
     encodedString = getBinaryCode(tree, rFileName);
     /*printf("%s\n", encodedString);*/

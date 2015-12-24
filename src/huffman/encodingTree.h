@@ -35,8 +35,8 @@ typedef struct SearchTree
     char letter;
     int count;
     char * letterCode;
-    struct EncodingTree * lChild;
-    struct EncodingTree * rChild;
+    struct SearchTree * lChild;
+    struct SearchTree * rChild;
 }
 SearchTree;
 
@@ -63,5 +63,12 @@ void printQueue(TreeQueue * root);
 SearchTreeList * createSearchList(SearchTreeList * head, EncodingTree * eTree, char * currentCode, int codeLength);
 SearchTree * createSearchNode(EncodingTree * eTree, char * letterCode);
 SearchTreeList * insertSearchNode(SearchTreeList * head, SearchTree * toAdd);
+void printSearchTreeList(SearchTreeList * head);
+
+SearchTree * createSearchTree(SearchTreeList * head);
+int getLengthOfList(SearchTreeList * head);
+int findHighestDouble(SearchTreeList * head, int middle);
+SearchTreeList * getList(SearchTreeList * head, int middle, int direction);
+void printSearchTree(SearchTree * root);
 
 #endif
