@@ -2,7 +2,7 @@
 
 /*
  * Adam Reid
- * December 15, 2015
+ * December 24, 2015
  */
 
 #include "encodingTree.h"
@@ -329,4 +329,68 @@ void printQueue(TreeQueue * root)
         temp = temp->next;
     }
     /*printf("end\n");*/
+}
+
+/*
+ * createSearchList
+ * Function: Creates a binary search tree list from the EncodingTree passed
+ * Parameters: The EncodingTree to create the seaarch tree list with
+ * Return: The binary search tree list
+ */
+SearchTreeList * createSearchList(SearchTreeList head, EncodingTree * eTree)
+{
+    SearchTreeList * temp;
+    EncodingTree * tempETree;
+
+    temp = NULL;
+    tempETree = eTree;
+
+    if(tempETree->lChild == NULL && tempETree->rChild == NULL)
+    {
+        temp = createSearchNode(tempETree);
+        head = insertSearchNode(head, temp);
+    }
+    else
+    {
+        head = createSearchList(head, tempETree->lChild);
+        head = createSearchList(head, tempETree->rChild);
+    }
+
+    return(head);
+}
+
+SearchTree * createSearchNode(EncodingTree * eTree, char * letterCode)
+{
+    SearchTree * sTree;
+
+    sTree = malloc(sizeof(SearchTree));
+
+    sTree->letter = eTree->letter;
+    sTree->count = eTree->count;
+    sTree->letterCode = letterCode;
+    sTree->lChild = NULL;
+    sTree->rChild = NULL;
+
+    return(sTree);
+}
+
+SearchTreeList * insertSearchNode(SearchTreeList * head, SearchTree * toAdd)
+{
+    SearchTreeList * temp;
+    SearchTreeList * newNode;
+
+    temp = head;
+    newNode = malloc(sizeof(SearchTreeList));
+    newNode->sTree = toAdd;
+    newNode->next = NULL;
+
+    while(temp->next != NULL && toAdd->count <= temp->next->sTree->count)
+    {
+        temp = temp->next;
+    }
+
+    newNode->next = temp->next;
+    temp->next = newNode;
+
+    return(head);
 }

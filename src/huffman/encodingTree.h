@@ -2,7 +2,7 @@
 
 /*
  * Adam Reid
- * December 15, 2015
+ * December 24, 2015
  */
 
 #ifndef ENCODING_TREE
@@ -30,6 +30,23 @@ typedef struct TreeQueue
 }
 TreeQueue;
 
+typedef struct SearchTree
+{
+    char letter;
+    int count;
+    char * letterCode;
+    struct EncodingTree * lChild;
+    struct EncodingTree * rChild;
+}
+SearchTree;
+
+typedef struct SearchTreeList
+{
+    SearchTree * sTree;
+    struct SearchTreeList * next;
+}
+SearchTreeList;
+
 EncodingTree * createTree(CharCounts * counts);
 int treeNodeCount(EncodingTree * root);
 EncodingTree * insertInTree(EncodingTree * root, EncodingTree * toAdd);
@@ -42,5 +59,9 @@ TreeQueue * insertInQueue(TreeQueue * root, TreeQueue * toAdd);
 int isEmpty(TreeQueue * root);
 TreeQueue * removeFromQueue(TreeQueue * root);
 void printQueue(TreeQueue * root);
+
+SearchTreeList * createSearchList(SearchTreeList * head, EncodingTree * eTree);
+SearchTree * createSearchNode(EncodingTree * eTree, char * letterCode);
+SearchTreeList * insertSearchNode(SearchTreeList head, SearchTree * toAdd);
 
 #endif
