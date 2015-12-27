@@ -20,11 +20,15 @@ char * getBinaryCode(EncodingTree * root, char * fileToOpen)
     char * letterCode;
     char * binaryString;
     int binaryLength;
+    SearchTreeList * sList;
+    SearchTree * sTree;
 
     letter = '\0';
     letterCode = NULL;
     binaryString = NULL;
     binaryLength = 0;
+    sList = NULL;
+    sTree = NULL;
 
     file = fopen(fileToOpen, "r");
     if(file == NULL)
@@ -41,13 +45,19 @@ char * getBinaryCode(EncodingTree * root, char * fileToOpen)
     }
     strcpy(binaryString, "");
 
+    sList = createSearchList(sList, root, NULL, 0);
+    /*printSearchTreeList(sList);*/
+    sTree = createSearchTree(sList);
+    /*printSearchTree(sTree);*/
+    /*printf("\n\n");*/
+
     do
     {
         letter = fgetc(file);
         if(letter != EOF)
         {
             /*printf("Letter: %c\n", letter);*/
-            letterCode = getLetterCode(root, letter, NULL, 0);
+            letterCode = getLetterCode(sTree, letter);
             /*printf("LetterCode: %s\n", letterCode);*/
             binaryLength += strlen(letterCode);
             /*printf("BinaryLength: %d\n", binaryLength);*/
@@ -59,7 +69,6 @@ char * getBinaryCode(EncodingTree * root, char * fileToOpen)
             }
             strcat(binaryString, letterCode);
             /*printf("BinaryString: %s\n", binaryString);*/
-            free(letterCode);
             letterCode = NULL;
         }
     }
@@ -77,63 +86,29 @@ char * getBinaryCode(EncodingTree * root, char * fileToOpen)
  *             The current running binary code of the letter; The current running length of the binary code
  * Return: The binary code for the letter passed
  */
-char * getLetterCode(EncodingTree * root, char letter, char * currentCode, int currentLength)
+char * getLetterCode(SearchTree * root, int letterNum)
 {
-    EncodingTree * temp;
-    char * letterCode;
-    int codeLength;
-
+    SearchTree * temp;
     temp = root;
-    letterCode = NULL;
-    codeLength = currentLength;
-
-    letterCode = malloc(sizeof(char) * (codeLength + 1));
-    if(letterCode == NULL)
-    {
-        printf("Error: not enough memory\n");
-        exit(0);
-    }
-
-    if(currentCode != NULL)
-    { 
-        strcpy(letterCode, currentCode);
-        free(currentCode);
-    }
-    else
-    {
-        /*printf("FirstRun\n");*/
-        strcpy(letterCode, "");
-    }
-
+    
     if(temp == NULL)
     {
         return(NULL);
     }
-
-    if(temp->letter == letter)
+    
+    if(temp->letterNum == letterNum)
     {
-        return(letterCode);
+        return(temp->letterCode);
     }
     else
     {
-        codeLength++;
-        letterCode = reallocf(letterCode, (sizeof(char) * (codeLength + 1)));
-        if(letterCode == NULL)
+        if(letterNum <= temp->letterNum) 
         {
-            printf("Error: not enough memory\n");
-            exit(0);
+            return(getLetterCode(temp->lChild, letterNum));
         }
-        if(isLetterInTree(temp->lChild, letter) == 1) /* If in the left child, add a '0', and move to the left child */
+        else if(letterNum > temp->letterNum)
         {
-            strcat(letterCode, "0");
-            /*printf("Curent Code: %s\n", letterCode);*/
-            return(getLetterCode(temp->lChild, letter, letterCode, codeLength));
-        }
-        else if(isLetterInTree(temp->rChild, letter) == 1) /* If in the right child, add a '1', and move to the right child */
-        {
-            strcat(letterCode, "1");
-            /*printf("Curent Code: %s\n", letterCode);*/
-            return(getLetterCode(temp->rChild, letter, letterCode, codeLength));
+            return(getLetterCode(temp->rChild, letterNum));
         }
         else
         {
@@ -218,13 +193,8 @@ int encode(char * rFileName)
 
     tree = createTree(counts);
 
-    sTreeList = createSearchList(sTreeList, tree, NULL, 0);
-    sTree = createSearchTree(sTreeList);
-    /*printSearchTree(sTree);*/
-
     encodedString = getBinaryCode(tree, rFileName);
     /*printf("%s\n", encodedString);*/
-
     success = writeToFile(wFileName, encodedString, tree);
 
     counts = freeCounts(counts);

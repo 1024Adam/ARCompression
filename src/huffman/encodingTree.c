@@ -392,7 +392,7 @@ SearchTree * createSearchNode(EncodingTree * eTree, char * letterCode)
     sTree = malloc(sizeof(SearchTree));
 
     sTree->letter = eTree->letter;
-    sTree->count = eTree->count;
+    sTree->letterNum = eTree->letter;
     sTree->letterCode = letterCode;
     sTree->lChild = NULL;
     sTree->rChild = NULL;
@@ -414,11 +414,11 @@ SearchTreeList * insertSearchNode(SearchTreeList * head, SearchTree * toAdd)
     {
         return(newNode);
     }
-    while(temp->next != NULL && toAdd->count >= temp->next->sTree->count)
+    while(temp->next != NULL && toAdd->letterNum >= temp->next->sTree->letterNum)
     {
         temp = temp->next;
     }
-    if(toAdd->count < temp->sTree->count)
+    if(toAdd->letterNum < temp->sTree->letterNum)
     {
         newNode->next = temp;
         return(newNode);
@@ -439,7 +439,7 @@ void printSearchTreeList(SearchTreeList * head)
     printf("START OF LIST\n");
     while(temp != NULL)
     {
-        printf("%c,%d,%s\n", temp->sTree->letter, temp->sTree->count, temp->sTree->letterCode);
+        printf("%c,%d,%s\n", temp->sTree->letter, temp->sTree->letterNum, temp->sTree->letterCode);
         temp = temp->next;
     }
     printf("END OF LIST\n");
@@ -476,6 +476,16 @@ SearchTree * createSearchTree(SearchTreeList * head)
         if(length == 1)
         {
             sTree = temp->sTree;
+            rightList = NULL;
+            leftList = NULL;
+            free(temp);
+        }
+        else if(length == 2)
+        {
+            sTree = temp->sTree;
+            rightList = getList(head, middle, 1);
+            leftList = NULL;
+            free(temp); 
         }
         else
         {
@@ -489,7 +499,7 @@ SearchTree * createSearchTree(SearchTreeList * head)
             free(temp->next);
             temp->next = temp->next->next;   
         }
-        /*printf("ROOT\n%c,%d,%s\n\n", sTree->letter, sTree->count, sTree->letterCode);*/
+        /*printf("ROOT\n%c,%d,%s\n\n", sTree->letter, sTree->letterNum, sTree->letterCode);*/
         sTree->lChild = createSearchTree(leftList);
         sTree->rChild = createSearchTree(rightList);
     }
@@ -534,9 +544,9 @@ int findHighestDouble(SearchTreeList * head, int middle)
         {
             temp = temp->next;
         }
-        count = temp->sTree->count;
+        count = temp->sTree->letterNum;
     
-        while(temp != NULL && temp->sTree->count == count)
+        while(temp != NULL && temp->sTree->letterNum == count)
         {
             temp = temp->next;
             i++;
@@ -555,17 +565,6 @@ SearchTreeList * getList(SearchTreeList * head, int middle, int direction)
    
     if(getLengthOfList(head) == 2)
     { 
-        if(head->sTree->count == head->next->sTree->count)
-        {
-            if(direction == 0)
-            {
-                return(head);
-            }
-            else
-            {
-                return(NULL);
-            }
-        }  
         if(direction == 0)
         {
             return(NULL);
@@ -622,7 +621,7 @@ void printSearchTree(SearchTree * root)
     if(root != NULL)
     {
         printf("ROOT\n");
-        printf("%c%d\n", root->letter, root->count);
+        printf("%c%d\n", root->letter, root->letterNum);
         printf("LeftChild\n");
         printSearchTree(root->lChild);
         printf("\n");

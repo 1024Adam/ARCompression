@@ -33,7 +33,7 @@ TreeQueue;
 typedef struct SearchTree
 {
     char letter;
-    int count;
+    int letterNum;
     char * letterCode;
     struct SearchTree * lChild;
     struct SearchTree * rChild;

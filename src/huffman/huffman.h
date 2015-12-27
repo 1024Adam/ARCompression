@@ -15,7 +15,7 @@
 #include "encodingTree.h"
 
 char * getBinaryCode(EncodingTree * root, char * fileToOpen);
-char * getLetterCode(EncodingTree * root, char letter, char * currentCode, int currentLength);
+char * getLetterCode(SearchTree * root, int letterNum);
 int isLetterInTree(EncodingTree * tree, char letter);
 char convertASCIICode(char * binString);
 
