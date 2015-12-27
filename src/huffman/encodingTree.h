@@ -70,5 +70,7 @@ int getLengthOfList(SearchTreeList * head);
 int findHighestDouble(SearchTreeList * head, int middle);
 SearchTreeList * getList(SearchTreeList * head, int middle, int direction);
 void printSearchTree(SearchTree * root);
+SearchTree * freeSTree(SearchTree * sTree);
+SearchTreeList * freeSTList(SearchTreeList * sList);
 
 #endif

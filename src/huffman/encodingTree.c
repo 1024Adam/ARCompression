@@ -630,3 +630,35 @@ void printSearchTree(SearchTree * root)
         printf("\n");
     }
 }
+
+SearchTree * freeSTree(SearchTree * sTree)
+{
+    if(sTree != NULL)
+    {
+        if(sTree->lChild != NULL)
+        {
+            sTree->lChild = freeSTree(sTree->lChild);
+        }
+        if(sTree->rChild != NULL)
+        {
+            sTree->rChild = freeSTree(sTree->rChild);
+        }
+        free(sTree->letterCode);
+        free(sTree);
+    }
+    return(NULL);
+}
+
+SearchTreeList * freeSTList(SearchTreeList * sList)
+{
+    SearchTreeList * temp;
+
+    temp = sList;
+    while(sList != NULL)
+    {
+        temp = sList;
+        sList = sList->next;
+        free(temp);
+    }
+    return(NULL);
+} 

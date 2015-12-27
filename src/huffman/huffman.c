@@ -75,6 +75,7 @@ char * getBinaryCode(EncodingTree * root, char * fileToOpen)
     while(letter != EOF);
 
     fclose(file);
+    freeSTree(sTree);
 
     return(binaryString);
 }
