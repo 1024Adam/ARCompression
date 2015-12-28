@@ -2,7 +2,7 @@
 
 /*
  * Adam Reid
- * December 17, 2015
+ * December 28, 2015
  */
 
 #include "charCounts.h"
@@ -40,11 +40,6 @@ CharCounts * getCharCounts(char * fileToOpen)
                 /* Character is not counted yet */
                 counts = addChar(counts, letter);
             }
-            else
-            {
-                /* Character has been counted before */
-                counts = addCount(counts, letter);
-            }
         }
     }
     while(letter != EOF);
@@ -56,7 +51,7 @@ CharCounts * getCharCounts(char * fileToOpen)
 
 /*
  * isCounted
- * Function: Identify whether the character has been counted before or not
+ * Function: Identify whether the character has been counted before or not; if it is counted, increment the count
  * Parameters: The list of characters counted; The character in question
  * Return: 1 - The character has been counted already
  *         0 - The character has not been counted yet
@@ -77,6 +72,7 @@ int isCounted(CharCounts * root, char letter)
     }
     else
     {
+        temp->count++;
         return(1);
     }
 }

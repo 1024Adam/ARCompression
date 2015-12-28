@@ -2,7 +2,7 @@
 
 /*
  * Adam Reid
- * December 15, 2015
+ * December 28, 2015
  */
 
 #ifndef CHAR_COUNTS

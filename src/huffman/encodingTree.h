@@ -2,7 +2,7 @@
 
 /*
  * Adam Reid
- * December 24, 2015
+ * December 28, 2015
  */
 
 #ifndef ENCODING_TREE

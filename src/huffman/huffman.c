@@ -2,7 +2,7 @@
 
 /*
  * Adam Reid
- * December 24, 2015
+ * December 28, 2015
  */
 
 #include "huffman.h"
@@ -56,9 +56,9 @@ char * getBinaryCode(EncodingTree * root, char * fileToOpen)
         letter = fgetc(file);
         if(letter != EOF)
         {
-            /*printf("Letter: %c\n", letter);*/
+            printf("Letter: %c\n", letter);
             letterCode = getLetterCode(sTree, letter);
-            /*printf("LetterCode: %s\n", letterCode);*/
+            printf("LetterCode: %s\n", letterCode);
             binaryLength += strlen(letterCode);
             /*printf("BinaryLength: %d\n", binaryLength);*/
             binaryString = reallocf(binaryString, (sizeof(char) * (binaryLength + 1)));
@@ -191,7 +191,7 @@ int encode(char * rFileName)
 
     counts = getCharCounts(rFileName);
     counts = sortCounts(counts);
-
+    
     tree = createTree(counts);
 
     encodedString = getBinaryCode(tree, rFileName);
