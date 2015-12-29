@@ -97,6 +97,7 @@ char * getLetterCode(SearchTree * root, int letterNum)
         return(NULL);
     }
     
+    /* Recursive Method */
     if(temp->letterNum == letterNum)
     {
         return(temp->letterCode);
@@ -116,6 +117,20 @@ char * getLetterCode(SearchTree * root, int letterNum)
             return(NULL);
         }
     }
+    /* Iterative Method
+    while(temp->letterNum != letterNum)
+    {
+        if(letterNum <= temp->letterNum)
+        {
+            temp = temp->lChild;
+        }
+        else
+        {
+            temp = temp->rChild;
+        }    
+    }
+    return(temp->letterCode);
+    */
 }
 
 /* 
