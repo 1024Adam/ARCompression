@@ -2,7 +2,7 @@
 
 /*
  * Adam Reid
- * December 28, 2015
+ * December 29, 2015
  */
 
 #include "encodingTree.h"
@@ -390,6 +390,11 @@ SearchTree * createSearchNode(EncodingTree * eTree, char * letterCode)
     SearchTree * sTree;
 
     sTree = malloc(sizeof(SearchTree));
+    if(sTree == NULL)
+    {
+        printf("Error: not enough memory\n");
+        exit(0);
+    }
 
     sTree->letter = eTree->letter;
     sTree->letterNum = eTree->letter;
@@ -407,6 +412,11 @@ SearchTreeList * insertSearchNode(SearchTreeList * head, SearchTree * toAdd)
 
     temp = head;
     newNode = malloc(sizeof(SearchTreeList));
+    if(newNode == NULL)
+    {
+        printf("Error: not enough memory\n");
+        exit(0);
+    }
     newNode->sTree = toAdd;
     newNode->next = NULL;
 

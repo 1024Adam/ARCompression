@@ -2,7 +2,7 @@
 
 /*
  * Adam Reid
- * December 28, 2015
+ * December 29, 2015
  */
 
 #include "charCounts.h"
