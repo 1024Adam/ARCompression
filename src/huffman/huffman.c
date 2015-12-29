@@ -233,18 +233,18 @@ int writeToFile(char * wFileName, char * string, EncodingTree * tree)
 
     /* Greab each substring of 8 characters, and write the ASCII value to the file */
     length = strlen(string);
-    printf("Length: %d\n", length);
+    /*printf("Length: %d\n", length);*/
     for(i = 0; i < length; i += 8)
     {
         if((i + 7) >= length)
         {
             substring = getSubstring(string, i, (length - 1));
-            printf("substring %d to %d: %s\n", i, (length - 1), substring);
+            /*printf("substring %d to %d: %s\n", i, (length - 1), substring);*/
         }
         else
         {
             substring = getSubstring(string, i, i + 7);
-            printf("substring %d to %d: %s\n", i, i + 7, substring);
+            /*printf("substring %d to %d: %s\n", i, i + 7, substring);*/
         }
         letter = convertASCIICode(substring);
         /*printf("Resulting letter: %c\n\n", letter);*/
