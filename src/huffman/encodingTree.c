@@ -334,7 +334,7 @@ void printQueue(TreeQueue * root)
 /*
  * createSearchList
  * Function: Creates a binary search tree list from the EncodingTree passed
- * Parameters: The EncodingTree to create the seaarch tree list with
+ * Parameters: The head of the search list; The EncodingTree to create the search tree list with; the current running code; the current running code length
  * Return: The binary search tree list
  */
 SearchTreeList * createSearchList(SearchTreeList * head, EncodingTree * eTree, char * currentCode, int currentLength)
@@ -385,6 +385,12 @@ SearchTreeList * createSearchList(SearchTreeList * head, EncodingTree * eTree, c
     return(head);
 }
 
+/*
+ * createSearchNode
+ * Function: Creates a search node for the purpose of being put into a SearchTree
+ * Parameters: The EncodingTree to create the node from; the letter code to use;
+ * Return: the SearchTree node to insert
+ */
 SearchTree * createSearchNode(EncodingTree * eTree, char * letterCode)
 {
     SearchTree * sTree;
@@ -405,6 +411,12 @@ SearchTree * createSearchNode(EncodingTree * eTree, char * letterCode)
     return(sTree);
 }
 
+/*  
+ * insertSearchNode
+ * Function: Insert a newly created SearchTree node into the STL
+ * Parameters: The current STL, the node to add
+ * Return: The new STL with the node inserted properly
+ */
 SearchTreeList * insertSearchNode(SearchTreeList * head, SearchTree * toAdd)
 {
     SearchTreeList * temp;
@@ -441,6 +453,12 @@ SearchTreeList * insertSearchNode(SearchTreeList * head, SearchTree * toAdd)
     }
 }
 
+/* 
+ * printSearchTreeList
+ * Function: Print the contents of the STL 
+ * Parameters: The SearchTreeList to print
+ * Return: void
+ */
 void printSearchTreeList(SearchTreeList * head)
 {
     SearchTreeList * temp;
@@ -455,6 +473,12 @@ void printSearchTreeList(SearchTreeList * head)
     printf("END OF LIST\n");
 }
 
+/*
+ * createSearchTree
+ * Function: Create a balanced ST to use in the encoding process
+ * Parameters: The STL to create the ST with
+ * Return: The ST
+ */
 SearchTree * createSearchTree(SearchTreeList * head)
 {
     SearchTree * sTree;
@@ -517,6 +541,12 @@ SearchTree * createSearchTree(SearchTreeList * head)
     return(sTree);
 }
 
+/*
+ * getLengthOfList
+ * Function: get the length of the STL
+ * Parameters: The STL to get the length of
+ * Return: The length of the STL
+ */
 int getLengthOfList(SearchTreeList * head)
 {
     SearchTreeList * temp;
@@ -534,6 +564,12 @@ int getLengthOfList(SearchTreeList * head)
     return(count);
 }
 
+/*
+ * findHighestDouble
+ * Function: Get the position of the furthest node with the same letterNum as the middle
+ * Parameters: The STL to search in; The middle of the list
+ * Return: The next highest position
+ */ 
 int findHighestDouble(SearchTreeList * head, int middle)
 {
     int i;
@@ -565,6 +601,12 @@ int findHighestDouble(SearchTreeList * head, int middle)
     }
 }
 
+/* 
+ * getList
+ * Function: Gets the remaining left/right side of the STL based on the middle specified
+ * Parameters: The STL to use; the middle of the list; the side to get (0 left 1 right)
+ * Return: The specified side of the original list
+ */
 SearchTreeList * getList(SearchTreeList * head, int middle, int direction)
 {
     int i;
@@ -641,6 +683,12 @@ void printSearchTree(SearchTree * root)
     }
 }
 
+/*
+ * freeSTree
+ * Function: Free all of the elements contained in the ST
+ * Parameters: The ST to free
+ * Return: NULL
+ */
 SearchTree * freeSTree(SearchTree * sTree)
 {
     if(sTree != NULL)
@@ -659,6 +707,12 @@ SearchTree * freeSTree(SearchTree * sTree)
     return(NULL);
 }
 
+/*
+ * freeSTList
+ * Function: Free all of the elements contained in the STL
+ * Parameters: The STL to free
+ * Return: NULL
+ */
 SearchTreeList * freeSTList(SearchTreeList * sList)
 {
     SearchTreeList * temp;
