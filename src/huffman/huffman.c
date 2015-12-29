@@ -56,9 +56,9 @@ char * getBinaryCode(EncodingTree * root, char * fileToOpen)
         letter = fgetc(file);
         if(letter != EOF)
         {
-            printf("Letter: %c\n", letter);
+            /*printf("Letter: %c\n", letter);*/
             letterCode = getLetterCode(sTree, letter);
-            printf("LetterCode: %s\n", letterCode);
+            /*printf("LetterCode: %s\n", letterCode);*/
             binaryLength += strlen(letterCode);
             /*printf("BinaryLength: %d\n", binaryLength);*/
             binaryString = reallocf(binaryString, (sizeof(char) * (binaryLength + 1)));
@@ -233,10 +233,19 @@ int writeToFile(char * wFileName, char * string, EncodingTree * tree)
 
     /* Greab each substring of 8 characters, and write the ASCII value to the file */
     length = strlen(string);
+    printf("Length: %d\n", length);
     for(i = 0; i < length; i += 8)
     {
-        substring = getSubstring(string, i, i + 7);
-        /*printf("substring %d to %d: %s\n", i, i + 7, substring);*/
+        if((i + 7) >= length)
+        {
+            substring = getSubstring(string, i, (length - 1));
+            printf("substring %d to %d: %s\n", i, (length - 1), substring);
+        }
+        else
+        {
+            substring = getSubstring(string, i, i + 7);
+            printf("substring %d to %d: %s\n", i, i + 7, substring);
+        }
         letter = convertASCIICode(substring);
         /*printf("Resulting letter: %c\n\n", letter);*/
         fprintf(wFile, "%c", letter);
