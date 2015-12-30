@@ -213,6 +213,7 @@ int encode(char * rFileName)
     /*printf("%s\n", encodedString);*/
     success = writeToFile(wFileName, encodedString, tree);
 
+    free(wFileName);
     counts = freeCounts(counts);
     tree = freeTree(tree);
 
@@ -329,11 +330,32 @@ char * getSubstring(char * string, int start, int end)
 
 int decode(char * rFileName)
 {
-    /*char * wFileName;*/
+    char * wFileName;
     EncodingTree * eTree;
 
     eTree = getTreeFromFile(rFileName);
     /*printTree(eTree);*/    
+    
+    wFileName = getDecodeFileName(rFileName);
+
+    free(wFileName);
     freeTree(eTree);
+
     return(1);
+}
+
+char * getDecodeFileName(char * rFileName)
+{
+    char * wFileName;
+    int length;
+
+    length = strlen(rFileName);
+    wFileName = malloc(sizeof(char) * (length - 3));
+
+    strncpy(wFileName, rFileName, (length - 4));
+    wFileName[length - 4] = '\0';
+
+    /*printf("%s\n", wFileName);*/     
+  
+    return(wFileName);
 }

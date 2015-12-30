@@ -25,5 +25,6 @@ void filePrintTree(FILE * wFile, EncodingTree * tree);
 char * getSubstring(char * string, int start, int end);
 
 int decode(char * rFileName);
+char * getDecodeFileName(char * rFileName);
 
 #endif
