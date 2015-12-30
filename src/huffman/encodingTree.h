@@ -76,6 +76,6 @@ SearchTreeList * freeSTList(SearchTreeList * sList);
 EncodingTree * getTreeFromFile(char * fileName);
 EncodingTree * createSubTree(char letter);
 EncodingTree * insertSubTree(EncodingTree * eTree, EncodingTree * toAdd);
-EncodingTree * findNextPosition(EncodingTree * eTree, int checkedLeft);
+EncodingTree * findNextPosition(EncodingTree * eTree, EncodingTree * eParent, int checkedLeft);
 
 #endif

@@ -786,7 +786,8 @@ EncodingTree * getTreeFromFile(char * fileName)
         eTree = insertSubTree(eTree, toAdd);    
         letter = fgetc(file);
     }
-    
+
+    fclose(file);    
     return(eTree);
 }
 
@@ -817,13 +818,13 @@ EncodingTree * insertSubTree(EncodingTree * eTree, EncodingTree * toAdd)
 
     if(eTree == NULL)
     {
-        printf("\"%c\" - Root\n", toAdd->letter);
+        /*printf("\"%c\" - Root\n", toAdd->letter);*/
         return(toAdd);
     }
     else
     {  
         /* LETTERS STOP PROGRESS ON THAT BRANCH */
-        temp = findNextPosition(eTree, 0);
+        temp = findNextPosition(eTree, NULL, 0);
         if(temp == NULL)
         {
             printf("Error: invalid .arc file\n");
@@ -831,19 +832,19 @@ EncodingTree * insertSubTree(EncodingTree * eTree, EncodingTree * toAdd)
         }        
         else if(temp->lChild == NULL)
         { 
-            printf("\"%c\" - LeftChild\n", toAdd->letter);
+            /*printf("\"%c\" - LeftChild\n", toAdd->letter);*/
             temp->lChild = toAdd;
         }
         else /*(temp->rChild == NULL)*/
         {
-            printf("\"%c\" - RightChild\n", toAdd->letter);
+            /*printf("\"%c\" - RightChild\n", toAdd->letter);*/
             temp->rChild = toAdd;
         }
         return(eTree);
     }
 } 
 
-EncodingTree * findNextPosition(EncodingTree * eTree, int checkedLeft)
+EncodingTree * findNextPosition(EncodingTree * eTree, EncodingTree * eParent, int checkedLeft)
 {
     EncodingTree * temp;
     
@@ -851,37 +852,47 @@ EncodingTree * findNextPosition(EncodingTree * eTree, int checkedLeft)
     
     if(eTree == NULL)
     {
-        printf("NULL\n");
-        return(NULL);
+        if(checkedLeft == 1) /* Left side has been checked already */
+        {
+            /*printf("PlaceRight\n");*/
+            return(eParent);
+        }
+        else
+        {
+            /*printf("NULL\n");*/
+            return(NULL);
+        }
     }
     else if(eTree->letter == '\0' && eTree->lChild == NULL)
     {
-        printf("PlaceLeft\n");
+        /*printf("PlaceLeft\n");*/
         return(eTree);
     }
     else if((eTree->lChild != NULL && eTree->lChild->letter != '\0') && eTree->rChild == NULL)
     {
-        printf("PlaceRight\n");
-        return(eTree);
-    }
-    else if(checkedLeft == 1 && eTree->letter == '\0' && eTree->rChild == NULL)
-    {
-        printf("PlaceRight\n");
+        /*printf("PlaceRight\n");*/
         return(eTree);
     }
     else
     {
-        printf("GoingLeft\n");
-        temp = findNextPosition(eTree->lChild, 0);
+        /*printf("GoingLeft\n");*/
+        temp = findNextPosition(eTree->lChild, eTree, 0);
         if(temp != NULL)
         { 
             return(temp);
         }
         else
         {
-            printf("LeftIsNULL\nGoingRight\n");
-            temp = findNextPosition(eTree->rChild, 1);
-            if(temp == NULL){printf("RightIsNULL\n");}
+            /*printf("LeftIsNULL\nGoingRight\n");*/
+            if(eTree->letter == '\0') /* Denotes a possible available location to the right */
+            {
+                temp = findNextPosition(eTree->rChild, eTree, 1);
+            }
+            else
+            {
+                temp = findNextPosition(eTree->rChild, eTree, 0);
+            }
+            /*if(temp == NULL){printf("RightIsNULL\n");}*/
             return(temp);
         }
     }

@@ -333,7 +333,7 @@ int decode(char * rFileName)
     EncodingTree * eTree;
 
     eTree = getTreeFromFile(rFileName);
-    printTree(eTree);    
-
+    /*printTree(eTree);*/    
+    freeTree(eTree);
     return(1);
 }
