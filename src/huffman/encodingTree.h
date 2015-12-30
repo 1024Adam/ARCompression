@@ -2,7 +2,7 @@
 
 /*
  * Adam Reid
- * December 28, 2015
+ * December 30, 2015
  */
 
 #ifndef ENCODING_TREE
@@ -75,5 +75,7 @@ SearchTreeList * freeSTList(SearchTreeList * sList);
 
 EncodingTree * getTreeFromFile(char * fileName);
 EncodingTree * createSubTree(char letter);
+EncodingTree * insertSubTree(EncodingTree * eTree, EncodingTree * toAdd);
+EncodingTree * findNextPosition(EncodingTree * eTree, int checkedLeft);
 
 #endif

@@ -2,7 +2,7 @@
 
 /*
  * Adam Reid
- * December 29, 2015
+ * December 30, 2015
  */
 
 #include "huffman.h"
@@ -333,6 +333,7 @@ int decode(char * rFileName)
     EncodingTree * eTree;
 
     eTree = getTreeFromFile(rFileName);
+    printTree(eTree);    
 
     return(1);
 }

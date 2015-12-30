@@ -2,7 +2,7 @@
 
 /*
  * Adam Reid
- * December 28, 2015
+ * December 30, 2015
  */
 
 #ifndef HUFFMAN
