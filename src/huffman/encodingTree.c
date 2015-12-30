@@ -725,4 +725,86 @@ SearchTreeList * freeSTList(SearchTreeList * sList)
         free(temp);
     }
     return(NULL);
+}
+
+/*
+ * getTreeFromFile
+ * Function: Use a previously encoded file to create a EncodingTree
+ * Parameters: The path to the encoded file
+ * Return: The EncodingTree produced
+ */
+EncodingTree * getTreeFromFile(char * fileName)
+{
+    FILE * file;
+    EncodingTree * eTree;
+    EncodingTree * toAdd;
+    char phrase[6] = {'\0'};
+    char letter;
+    int i;
+
+    file = fopen(fileName, "r");
+    if(file == NULL)
+    {
+        printf("Error: not enough memory\n");
+        exit(0);
+    }
+    
+    eTree = NULL;
+    toAdd = NULL;
+    i = 0;
+    letter = '\0';
+
+    /* Find the point in the file where ":ARC:" is found */
+    while(phrase[4] != EOF && strcmp(phrase, ":ARC:") != 0)
+    {
+        for(i = 0; i < 5; i ++)
+        {
+            phrase[i] = fgetc(file);
+        }
+        phrase[i] = '\0';
+        for(i = 4; i > 0; i--)
+        {
+            ungetc(phrase[i], file);
+        }
+    }
+    if(phrase[4] == EOF)
+    {
+        printf("Error: not a valid .arc file\n");
+        exit(0);
+    }
+
+    for(i = 0; i < 7; i++)
+    {
+        fgetc(file);
+    }
+    /***/
+    letter = fgetc(file);
+    while(letter != EOF)
+    {
+        /*printf("%c\n", letter);*/
+        toAdd = createSubTree(letter);
+        /*TODO insert node into tree*/      
+        letter = fgetc(file);
+    }
+    
+    return(eTree);
+}
+
+EncodingTree * createSubTree(char letter)
+{
+    EncodingTree * eTree;
+
+    eTree = malloc(sizeof(EncodingTree));
+    if(eTree == NULL)
+    {
+        printf("Error: not enough memory\n");
+        exit(0);
+    }
+
+    eTree->letter = letter;
+    eTree->count = 0;
+    eTree->lChild = NULL;
+    eTree->rChild = NULL;
+
+    return(eTree);
 } 

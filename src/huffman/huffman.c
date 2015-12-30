@@ -265,9 +265,9 @@ int writeToFile(char * wFileName, char * string, EncodingTree * tree)
         /*printf("Resulting letter: %c\n\n", letter);*/
         fprintf(wFile, "%c", letter);
     }
-    fprintf(wFile, "\n:ARC:\n");
+    fprintf(wFile, "\n:ARC:");
     length = strlen(substring);
-    fprintf(wFile, "%d\n", length);
+    fprintf(wFile, "%d", length);
     filePrintTree(wFile, tree);
     
     printf("The file has been encoded to %s\n", wFileName);
@@ -287,7 +287,7 @@ void filePrintTree(FILE * wFile, EncodingTree * tree)
 {
     if(tree != NULL)
     {
-        fprintf(wFile, "%c,", tree->letter);
+        fprintf(wFile, "%c", tree->letter);
         filePrintTree(wFile, tree->lChild);
         filePrintTree(wFile, tree->rChild);
     }
@@ -325,4 +325,14 @@ char * getSubstring(char * string, int start, int end)
     substring[i] = '\0';
 
     return(substring);
+}
+
+int decode(char * rFileName)
+{
+    /*char * wFileName;*/
+    EncodingTree * eTree;
+
+    eTree = getTreeFromFile(rFileName);
+
+    return(1);
 }

@@ -73,4 +73,7 @@ void printSearchTree(SearchTree * root);
 SearchTree * freeSTree(SearchTree * sTree);
 SearchTreeList * freeSTList(SearchTreeList * sList);
 
+EncodingTree * getTreeFromFile(char * fileName);
+EncodingTree * createSubTree(char letter);
+
 #endif
