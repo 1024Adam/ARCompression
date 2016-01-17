@@ -373,7 +373,7 @@ SearchTreeList * createSearchList(SearchTreeList * head, EncodingTree * eTree, c
     {
         codeLength++;
         /*printf("CodeLength: %d\n", codeLength);*/
-        letterCode = reallocf(letterCode, (sizeof(char) * (codeLength + 1)));
+        letterCode = realloc(letterCode, (sizeof(char) * (codeLength + 1)));
         letterCode[codeLength - 1] = '0';
         /*printf("CurrentLetterCode: %s\n", letterCode);*/
         head = createSearchList(head, tempETree->lChild, letterCode, codeLength);

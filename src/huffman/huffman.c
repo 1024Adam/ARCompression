@@ -61,7 +61,7 @@ char * getBinaryCode(EncodingTree * root, char * fileToOpen)
             /*printf("LetterCode: %s\n", letterCode);*/
             binaryLength += strlen(letterCode);
             /*printf("BinaryLength: %d\n", binaryLength);*/
-            binaryString = reallocf(binaryString, (sizeof(char) * (binaryLength + 1)));
+            binaryString = realloc(binaryString, (sizeof(char) * (binaryLength + 1)));
             if(binaryString == NULL)
             {
                 printf("Error: not enough memory\n");
