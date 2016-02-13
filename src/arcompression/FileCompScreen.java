@@ -6,7 +6,7 @@ import java.awt.*;
 
 /*
  * Adam Reid
- * December 7, 2015
+ * February 13, 2016
  */
 
 public class FileCompScreen extends JFrame
@@ -55,6 +55,8 @@ public class FileCompScreen extends JFrame
 
         JButton decompress = new JButton("Decompress");
         decompress.setSelected(false);
+        /** TODO: Enable decompression button when decompress feature becomes available **/
+        decompress.setEnabled(false);
         
         // Submit button; will be used for the submit panel further down
         JButton submit = new JButton("<html><b>Compress File</b></html>");
@@ -111,7 +113,7 @@ public class FileCompScreen extends JFrame
         southPanel2.setBackground(Color.WHITE);
         southPanel2.setLayout(new FlowLayout(FlowLayout.LEFT));
         
-        submit.addActionListener(new SubmitListener(statusArea));
+        submit.addActionListener(new SubmitListener(statusArea, submit));
         southPanel2.add(submit);
         
         submitPanel.add(southPanel1, BorderLayout.NORTH);
