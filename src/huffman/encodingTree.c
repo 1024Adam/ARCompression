@@ -738,6 +738,8 @@ EncodingTree * getTreeFromFile(char * fileName)
     FILE * file;
     EncodingTree * eTree;
     EncodingTree * toAdd;
+    char * charBinary;
+    char * binaryString;
     char phrase[6] = {'\0'};
     char letter;
     int i;
@@ -753,6 +755,8 @@ EncodingTree * getTreeFromFile(char * fileName)
     toAdd = NULL;
     i = 0;
     letter = '\0';
+    charBinary = NULL;
+    binaryString = NULL;
 
     /* Find the point in the file where ":ARC:" is found */
     while(phrase[4] != EOF && strcmp(phrase, ":ARC:") != 0)
@@ -781,12 +785,13 @@ EncodingTree * getTreeFromFile(char * fileName)
     letter = fgetc(file);
     while(letter != EOF)
     {
-        /*printf("%c\n", letter);*/
+        printf("%c\n", letter);
         toAdd = createSubTree(letter);
         eTree = insertSubTree(eTree, toAdd);    
         letter = fgetc(file);
     }
-
+    /*printTree(eTree);*/
+    
     fclose(file);    
     return(eTree);
 }

@@ -332,12 +332,17 @@ int decode(char * rFileName)
 {
     char * wFileName;
     EncodingTree * eTree;
+    char * encodedString;   
 
     eTree = getTreeFromFile(rFileName);
     /*printTree(eTree);*/    
     
-    wFileName = getDecodeFileName(rFileName);
+    wFileName = getDecodeFileName(rFileName);    
+    
+    encodedString = getEncodedBinary(rFileName);
+    printf("%s\n", encodedString);
 
+    free(encodedString);
     free(wFileName);
     freeTree(eTree);
 
@@ -358,4 +363,86 @@ char * getDecodeFileName(char * rFileName)
     /*printf("%s\n", wFileName);*/     
   
     return(wFileName);
+}
+
+char * getEncodedBinary(char * rFileName)
+{
+    FILE * rFile;
+    char phrase[6] = {'\0'};
+    char * encodedBinary;
+    char * charBinary;
+    int length;
+    int i;
+
+    i = 0;
+    length = 1;
+    rFile = fopen(rFileName, "r");
+    charBinary = NULL;
+    encodedBinary = malloc(sizeof(char));
+    if(encodedBinary == NULL)
+    {
+        printf("Error: not enough memory\n");
+        exit(0);
+    }
+    strcpy(encodedBinary, "");
+    
+    /* Until the point in the file where ":ARC:" is found */
+    while(strcmp(phrase, ":ARC:") != 0)
+    {
+        for(i = 0; i < 5; i ++)
+        {
+            phrase[i] = fgetc(rFile);
+        }
+        phrase[i] = '\0';
+        /* Figure out what the binary string is */
+        printf("%c\n", phrase[0]);
+        charBinary = getBinary(phrase[0]);
+        length += 8;
+        encodedBinary = realloc(encodedBinary, length);
+        strcat(encodedBinary, charBinary);
+        free(charBinary);
+        for(i = 4; i > 0; i--)
+        {
+            ungetc(phrase[i], rFile);
+        }
+    }
+
+    fclose(rFile);
+    return(encodedBinary);
+}
+
+char * getBinary(int letter)
+{
+    char * binaryCode;
+    int i;
+    int length;
+
+    binaryCode = malloc(sizeof(char) * 9);
+    i = 0;
+    length = 0;
+    
+    if(binaryCode == NULL)
+    {
+        printf("Error: Not enough memory\n");
+        exit(0);
+    }
+
+    printf("%d\n", letter);
+
+    for(i = 7; i >= 0; i--)
+    {
+        if(letter - pow(2, i) >= 0)
+        {
+            binaryCode[length] = '1';
+            letter -= pow(2, i);
+        }
+        else
+        {
+            binaryCode[length] = '0';
+        }
+        length++;
+    }
+    binaryCode[length] = '\0';
+
+    return(binaryCode);
 }
