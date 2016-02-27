@@ -785,7 +785,7 @@ EncodingTree * getTreeFromFile(char * fileName)
     letter = fgetc(file);
     while(letter != EOF)
     {
-        printf("%c\n", letter);
+        /*printf("%c\n", letter);*/
         toAdd = createSubTree(letter);
         eTree = insertSubTree(eTree, toAdd);    
         letter = fgetc(file);

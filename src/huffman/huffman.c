@@ -210,7 +210,7 @@ int encode(char * rFileName)
     tree = createTree(counts);
 
     encodedString = getBinaryCode(tree, rFileName);
-    /*printf("%s\n", encodedString);*/
+    printf("%s\n", encodedString);
     success = writeToFile(wFileName, encodedString, tree);
 
     free(wFileName);
@@ -368,7 +368,8 @@ char * getDecodeFileName(char * rFileName)
 char * getEncodedBinary(char * rFileName)
 {
     FILE * rFile;
-    char phrase[6] = {'\0'};
+    unsigned char phrase[6] = {'\0'};
+    char sphrase[6] = {'\0'};
     char * encodedBinary;
     char * charBinary;
     int length;
@@ -387,15 +388,17 @@ char * getEncodedBinary(char * rFileName)
     strcpy(encodedBinary, "");
     
     /* Until the point in the file where ":ARC:" is found */
-    while(strcmp(phrase, ":ARC:") != 0)
+    while(strcmp(sphrase, ":ARC:") != 0)
     {
         for(i = 0; i < 5; i ++)
         {
             phrase[i] = fgetc(rFile);
+            sphrase[i] = phrase[i];
         }
         phrase[i] = '\0';
+        sphrase[i] = '\0';
         /* Figure out what the binary string is */
-        printf("%c\n", phrase[0]);
+        /*printf("%c\n", phrase[0]);*/
         charBinary = getBinary(phrase[0]);
         length += 8;
         encodedBinary = realloc(encodedBinary, length);
@@ -411,7 +414,7 @@ char * getEncodedBinary(char * rFileName)
     return(encodedBinary);
 }
 
-char * getBinary(int letter)
+char * getBinary(unsigned char letter)
 {
     char * binaryCode;
     int i;
@@ -427,7 +430,7 @@ char * getBinary(int letter)
         exit(0);
     }
 
-    printf("%d\n", letter);
+    /*printf("%u\n", letter);*/
 
     for(i = 7; i >= 0; i--)
     {

@@ -27,6 +27,6 @@ char * getSubstring(char * string, int start, int end);
 int decode(char * rFileName);
 char * getDecodeFileName(char * rFileName);
 char * getEncodedBinary(char * rFileName);
-char * getBinary(int letter);
+char * getBinary(unsigned char letter);
 
 #endif
