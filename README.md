@@ -13,7 +13,7 @@ There is also a command line interface in C that has been implemented, and can b
 3. The programs current function only compresses text files. Future improvements involve adding compression for all types of files.
 
 ### Compilation
-1. Build the entire project, linking the Java GUI to the C compression/decompression algorithm: 
+1. Build the entire project, linking the Java GUI to the C compression/decompression algorithm **(Not Implemented)**: 
 
    **make**
 
