@@ -16,6 +16,10 @@ int main(int argc, char ** argv)
     {
         decode(argv[2]);
     }
+    else if((argc == 3) && (strcmp(argv[2], "-d") == 0))
+    {
+        decode(argv[1]);
+    }
     else if(((argc == 3) && (strcmp(argv[1], "-c") == 0)) || (argc == 2))
     {
         if(argc == 2)
@@ -26,6 +30,10 @@ int main(int argc, char ** argv)
         {
             encode(argv[2]);
         }
+    }
+    else if((argc == 3) && (strcmp(argv[2], "-c") == 0))
+    {
+        encode(argv[1]);
     }
     else
     {

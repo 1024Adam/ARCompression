@@ -2,7 +2,7 @@
 
 /*
  * Adam Reid
- * April 7, 2016
+ * April 8, 2016
  */
 
 #include "huffman.h"
@@ -160,17 +160,6 @@ int isLetterInTree(EncodingTree * tree, char letter)
 }
 
 /*
- * convertASCIICode
- * Function: Convert the binary code (as a string) into a character value
- * Parameters: The binary string to be converted
- * Return: The binary value as a character 
- */
-char convertASCIICode(char * binString)
-{
-    return(strtol(binString, NULL, 2));
-}
-
-/*
  * encode
  * Function: Convert the entire file passed into an encoded string, and write the string to a new file
  * Parameters: The file path as a string literal to read from
@@ -263,7 +252,7 @@ int writeToFile(char * wFileName, char * string, EncodingTree * tree)
             substring = getSubstring(string, i, i + 7);
             /*printf("substring %d to %d: %s\n", i, i + 7, substring);*/
         }
-        letter = convertASCIICode(substring);
+        letter = strtol(substring, NULL, 2);
         /*printf("Resulting letter: %c\n\n", letter);*/
         fprintf(wFile, "%c", letter);
     }

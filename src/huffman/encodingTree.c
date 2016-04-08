@@ -142,7 +142,7 @@ void printTree(EncodingTree * root)
     if(root != NULL)
     {
         printf("ROOT\n");
-        printf("%c%d\n", root->letter, root->count);
+        printf("%c %d\n", root->letter, root->count);
         printf("LeftChild\n");
         printTree(root->lChild);
         printf("\n");
@@ -759,7 +759,7 @@ EncodingTree * getTreeFromFile(char * fileName)
     binaryString = NULL;
 
     /* Find the point in the file where ":ARC:" is found */
-    while(phrase[4] != EOF && strcmp(phrase, ":ARC:") != 0)
+    while(strcmp(phrase, ":ARC:") != 0)
     {
         for(i = 0; i < 5; i ++)
         {
@@ -771,15 +771,9 @@ EncodingTree * getTreeFromFile(char * fileName)
             ungetc(phrase[i], file);
         }
     }
-    if(phrase[4] == EOF)
-    {
-        printf("Error: not a valid .arc file\n");
-        exit(0);
-    }
-
     for(i = 0; i < 5; i++)
     {
-        fgetc(file);
+       fgetc(file);
     }
     /***/
     letter = fgetc(file);

@@ -17,7 +17,6 @@
 char * getBinaryCode(EncodingTree * root, char * fileToOpen);
 char * getLetterCode(SearchTree * root, int letterNum);
 int isLetterInTree(EncodingTree * tree, char letter);
-char convertASCIICode(char * binString);
 
 int encode(char * rFileName);
 int writeToFile(char * wFileName, char * string, EncodingTree * tree);

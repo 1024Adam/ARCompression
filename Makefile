@@ -10,3 +10,6 @@ arcomp: src/huffman/charCounts.c src/huffman/charCounts.h src/huffman/encodingTr
 
 clean:
 	rm $(HUFF_OUT)/arc 
+
+alias:
+	printf "%s%s%s" "alias arc='" $(PWD) "/bin/huffman/arc'" >> ~/.bash_profile
