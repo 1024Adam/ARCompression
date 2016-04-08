@@ -1,4 +1,4 @@
-CFLAGS = -ansi -Wall
+CFLAGS = -ansi -Wall -lm
 CC = gcc
 HUFF_DIR = src/huffman
 HUFF_OUT = bin/huffman
