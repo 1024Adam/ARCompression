@@ -327,10 +327,9 @@ int decode(char * rFileName)
  
     success = 0;
     eTree = getTreeFromFile(rFileName);
-    /*printTree(eTree);*/    
+    /*printTree(eTree);*/
 
     wFileName = getDecodeFileName(rFileName);    
-    /*finalBinaryLength = getFinalBinaryLength(rFileName);*/
     encodedString = getEncodedBinary(rFileName);
     /*printf("%s\n", encodedString);*/
     success = decodeToFile(wFileName, encodedString, eTree);
