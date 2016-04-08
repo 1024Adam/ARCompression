@@ -2,7 +2,7 @@
 
 /*
  * Adam Reid
- * December 30, 2015
+ * April 7, 2016
  */
 
 #include "huffman.h"
@@ -208,9 +208,10 @@ int encode(char * rFileName)
     counts = sortCounts(counts);
     
     tree = createTree(counts);
+    /*printTree(tree);*/
 
     encodedString = getBinaryCode(tree, rFileName);
-    printf("%s\n", encodedString);
+    /*printf("%s\n", encodedString);*/
     success = writeToFile(wFileName, encodedString, tree);
 
     free(wFileName);
@@ -222,8 +223,8 @@ int encode(char * rFileName)
 
 /*
  * writeToFile
- * Function: Write the encoded string to the new file
- * Parameters: The string literal of the new file path name; The encoded string to write to the file
+ * Function: Write the encodedi/decoded string to the new file
+ * Parameters: The string literal of the new file path name; The encoded/decoded string to write to the file; (For encoding) the encoding tree used, otherwise NULL
  * Return: 1 - On success
  *         0 - On failure
  */
@@ -247,7 +248,7 @@ int writeToFile(char * wFileName, char * string, EncodingTree * tree)
         exit(0);
     }
 
-    /* Greab each substring of 8 characters, and write the ASCII value to the file */
+    /* Grab each substring of 8 characters, and write the ASCII value to the file */
     length = strlen(string);
     /*printf("Length: %d\n", length);*/
     for(i = 0; i < length; i += 8)
@@ -266,11 +267,11 @@ int writeToFile(char * wFileName, char * string, EncodingTree * tree)
         /*printf("Resulting letter: %c\n\n", letter);*/
         fprintf(wFile, "%c", letter);
     }
-    fprintf(wFile, "\n:ARC:");
+
+    fprintf(wFile, ":ARC:");
     length = strlen(substring);
     fprintf(wFile, "%d", length);
     filePrintTree(wFile, tree);
-    
     printf("The file has been encoded to %s\n", wFileName);
 
     fclose(wFile);
@@ -333,14 +334,17 @@ int decode(char * rFileName)
     char * wFileName;
     EncodingTree * eTree;
     char * encodedString;   
-
+    int success;
+ 
+    success = 0;
     eTree = getTreeFromFile(rFileName);
     /*printTree(eTree);*/    
-    
+
     wFileName = getDecodeFileName(rFileName);    
-    
+    /*finalBinaryLength = getFinalBinaryLength(rFileName);*/
     encodedString = getEncodedBinary(rFileName);
-    printf("%s\n", encodedString);
+    /*printf("%s\n", encodedString);*/
+    success = decodeToFile(wFileName, encodedString, eTree);
 
     free(encodedString);
     free(wFileName);
@@ -372,11 +376,14 @@ char * getEncodedBinary(char * rFileName)
     char sphrase[6] = {'\0'};
     char * encodedBinary;
     char * charBinary;
+    char temp[2] = {'\0'};
     int length;
+    int lastLength;
     int i;
 
     i = 0;
     length = 1;
+    lastLength = 0;
     rFile = fopen(rFileName, "r");
     charBinary = NULL;
     encodedBinary = malloc(sizeof(char));
@@ -390,23 +397,50 @@ char * getEncodedBinary(char * rFileName)
     /* Until the point in the file where ":ARC:" is found */
     while(strcmp(sphrase, ":ARC:") != 0)
     {
-        for(i = 0; i < 5; i ++)
+        for(i = 0; i < 5; i++)
         {
             phrase[i] = fgetc(rFile);
             sphrase[i] = phrase[i];
         }
         phrase[i] = '\0';
         sphrase[i] = '\0';
-        /* Figure out what the binary string is */
-        /*printf("%c\n", phrase[0]);*/
-        charBinary = getBinary(phrase[0]);
-        length += 8;
-        encodedBinary = realloc(encodedBinary, length);
-        strcat(encodedBinary, charBinary);
-        free(charBinary);
-        for(i = 4; i > 0; i--)
+
+        if(strcmp(sphrase, ":ARC:") != 0)
         {
-            ungetc(phrase[i], rFile);
+            /* Figure out what the binary string is */
+            /*printf("%c\n", phrase[0]);*/
+            charBinary = getBinary(phrase[0]);
+            for(i = 0; i < 4; i++)
+            {
+                phrase[i] = phrase[i + 1];
+                sphrase[i] = phrase[i];
+            }
+            phrase[i] = fgetc(rFile);
+            sphrase[i] = phrase[i];
+            i++;
+            phrase[i] = '\0';
+            sphrase[i] = '\0';
+            if(strcmp(sphrase, ":ARC:") == 0)
+            {
+                temp[0] = fgetc(rFile);
+                lastLength = strtol(temp, NULL, 10);
+                /*printf("LastLength: %d\n", lastLength);*/
+                length += lastLength;
+            
+                charBinary = getSubstring(charBinary, 8 - lastLength, 7);
+            }
+            else
+            {
+                for(i = 4; i >= 0; i--)
+                {
+                    ungetc(phrase[i], rFile);
+                }
+                length += 8;
+            }
+            encodedBinary = realloc(encodedBinary, length);
+            strcat(encodedBinary, charBinary);
+            /*printf("%s\n", encodedBinary);*/
+            free(charBinary);
         }
     }
 
@@ -448,4 +482,48 @@ char * getBinary(unsigned char letter)
     binaryCode[length] = '\0';
 
     return(binaryCode);
+}
+
+int decodeToFile(char * wFileName, char * string, EncodingTree * tree)
+{
+    FILE * wFile;
+    int i;
+    EncodingTree * tempTree;
+ 
+    i = 0;
+    tempTree = tree;
+
+    wFile = fopen(wFileName, "w");
+    if(wFile == NULL)
+    {
+        printf("Error: file could not be found\n");
+        exit(0);
+    }
+ 
+    while(string[i] != '\0')
+    {
+        while(tempTree->lChild != NULL && tempTree->rChild != NULL)
+        {
+            /*printf("%c\n", string[i]);*/
+            if(string[i] == '0')
+            {
+                /*printf("LEFT\n");*/
+                tempTree = tempTree->lChild; 
+            }
+            else /* string[i] == 1 */ 
+            {
+                /*printf("RIGHT\n");*/
+                tempTree = tempTree->rChild; 
+            }
+            i++;
+        }
+        fprintf(wFile, "%c", tempTree->letter);
+        tempTree = tree;
+    }
+    
+    printf("The file has been decoded to %s\n", wFileName);
+
+    fclose(wFile);
+    
+    return(1);    
 }

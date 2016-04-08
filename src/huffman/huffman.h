@@ -28,5 +28,6 @@ int decode(char * rFileName);
 char * getDecodeFileName(char * rFileName);
 char * getEncodedBinary(char * rFileName);
 char * getBinary(unsigned char letter);
+int decodeToFile(char * wFileName, char * string, EncodingTree * tree);
 
 #endif

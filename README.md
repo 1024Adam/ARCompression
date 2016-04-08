@@ -21,4 +21,4 @@ There is also a command line interface in C that has been implemented, and can b
 
    **make arcomp**
    
-   Running this command will build the program into ./bin/huffman/test
+   Running this command will build the program into /bin/huffman/test
