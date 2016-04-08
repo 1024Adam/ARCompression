@@ -16,6 +16,7 @@
 CharCounts * getCharCounts(char * fileToOpen)
 {
     FILE * file;
+    unsigned char uletter;
     char letter;
     CharCounts * counts;
 
@@ -25,20 +26,22 @@ CharCounts * getCharCounts(char * fileToOpen)
         printf("Error: file could not be found\n");
         exit(0);
     }
+    uletter = '\0';
     letter = '\0';
     counts = NULL;
 
     do
     {
-        letter = fgetc(file);
+        uletter = fgetc(file);
+        letter = uletter;
         if(letter != EOF)
         {
             /*printf("Letter: %c\n", letter);*/
 
-            if(isCounted(counts, letter) == 0)
+            if(isCounted(counts, uletter) == 0)
             {
                 /* Character is not counted yet */
-                counts = addChar(counts, letter);
+                counts = addChar(counts, uletter);
             }
         }
     }
@@ -56,7 +59,7 @@ CharCounts * getCharCounts(char * fileToOpen)
  * Return: 1 - The character has been counted already
  *         0 - The character has not been counted yet
  */
-int isCounted(CharCounts * root, char letter)
+int isCounted(CharCounts * root, unsigned char letter)
 {
     CharCounts * temp;
     temp = root;
@@ -83,7 +86,7 @@ int isCounted(CharCounts * root, char letter)
  * Parameters: The letter to create the count from
  * Return: The new CharCount variable 
  */
-CharCounts * createCount(char letter)
+CharCounts * createCount(unsigned char letter)
 {
     CharCounts * newCount;
     newCount = malloc(sizeof(CharCounts));
@@ -107,7 +110,7 @@ CharCounts * createCount(char letter)
  * Parameters: The current list of CharCounts; The CharCount to add
  * Return: The new updated list of CharCounts 
  */
-CharCounts * addChar(CharCounts * root, char toAdd)
+CharCounts * addChar(CharCounts * root, unsigned char toAdd)
 {
     CharCounts * temp;
     CharCounts * newCount;
@@ -138,7 +141,7 @@ CharCounts * addChar(CharCounts * root, char toAdd)
  * Parameters: The list of CharCounts; The letter of the CharCount to increment the count for
  * Return: The new updated list of CharCounts
  */
-CharCounts * addCount(CharCounts * root, char letter)
+CharCounts * addCount(CharCounts * root, unsigned char letter)
 {
     CharCounts * temp;
     temp = root;
@@ -284,7 +287,7 @@ CharCounts * removeFront(CharCounts * root)
  * Parameters: The list of CharCounts; The character in question
  * Return: The character count of the character given
  */
-int getLetterCount(CharCounts * counts, char letter)
+int getLetterCount(CharCounts * counts, unsigned char letter)
 {
     int letterCount;
     CharCounts * temp;

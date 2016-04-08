@@ -16,6 +16,7 @@
 char * getBinaryCode(EncodingTree * root, char * fileToOpen)
 {
     FILE * file;
+    unsigned char uletter;
     char letter;
     char * letterCode;
     char * binaryString;
@@ -23,6 +24,7 @@ char * getBinaryCode(EncodingTree * root, char * fileToOpen)
     SearchTreeList * sList;
     SearchTree * sTree;
 
+    uletter = '\0';
     letter = '\0';
     letterCode = NULL;
     binaryString = NULL;
@@ -53,11 +55,12 @@ char * getBinaryCode(EncodingTree * root, char * fileToOpen)
 
     do
     {
-        letter = fgetc(file);
+        uletter = fgetc(file);
+        letter = uletter;
         if(letter != EOF)
         {
             /*printf("Letter: %c\n", letter);*/
-            letterCode = getLetterCode(sTree, letter);
+            letterCode = getLetterCode(sTree, uletter);
             /*printf("LetterCode: %s\n", letterCode);*/
             binaryLength += strlen(letterCode);
             /*printf("BinaryLength: %d\n", binaryLength);*/

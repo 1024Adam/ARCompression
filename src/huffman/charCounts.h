@@ -15,7 +15,7 @@
 
 typedef struct CharCounts
 {
-    char letter;
+    unsigned char letter;
     int count;
     struct CharCounts * next; 
     struct CharCounts * prev;
@@ -23,15 +23,15 @@ typedef struct CharCounts
 CharCounts;
 
 CharCounts * getCharCounts(char * fileToOpen);
-int isCounted(CharCounts * root, char letter);
-CharCounts * createCount(char  letter);
-CharCounts * addChar(CharCounts * root, char toAdd);
-CharCounts * addCount(CharCounts * root, char letter);
+int isCounted(CharCounts * root, unsigned char letter);
+CharCounts * createCount(unsigned char letter);
+CharCounts * addChar(CharCounts * root, unsigned char toAdd);
+CharCounts * addCount(CharCounts * root, unsigned char letter);
 void printCounts(CharCounts * root);
 CharCounts * sortCounts(CharCounts * root);
 int getLength(CharCounts * root);
 CharCounts * removeFront(CharCounts * root);
-int getLetterCount(CharCounts * counts, char letter);
+int getLetterCount(CharCounts * counts, unsigned char letter);
 CharCounts * freeCounts(CharCounts * counts);
 
 #endif

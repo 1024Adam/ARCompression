@@ -790,7 +790,7 @@ EncodingTree * getTreeFromFile(char * fileName)
     return(eTree);
 }
 
-EncodingTree * createSubTree(char letter)
+EncodingTree * createSubTree(unsigned char letter)
 {
     EncodingTree * eTree;
 

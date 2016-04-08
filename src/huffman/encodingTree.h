@@ -17,7 +17,7 @@
 
 typedef struct EncodingTree
 {
-    char letter;
+    unsigned char letter;
     int count;
     struct EncodingTree * lChild;
     struct EncodingTree * rChild; 
@@ -33,7 +33,7 @@ TreeQueue;
 
 typedef struct SearchTree
 {
-    char letter;
+    unsigned char letter;
     int letterNum;
     char * letterCode;
     struct SearchTree * lChild;
@@ -75,7 +75,7 @@ SearchTree * freeSTree(SearchTree * sTree);
 SearchTreeList * freeSTList(SearchTreeList * sList);
 
 EncodingTree * getTreeFromFile(char * fileName);
-EncodingTree * createSubTree(char letter);
+EncodingTree * createSubTree(unsigned char letter);
 EncodingTree * insertSubTree(EncodingTree * eTree, EncodingTree * toAdd);
 EncodingTree * findNextPosition(EncodingTree * eTree, EncodingTree * eParent, int checkedLeft);
 
