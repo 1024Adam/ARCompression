@@ -2,6 +2,7 @@ CFLAGS = -ansi -Wall -lm
 CC = gcc
 HUFF_DIR = src/huffman
 HUFF_OUT = bin/huffman
+UNAME_S := $(shell uname -s)
 
 all: arcomp
 
@@ -12,4 +13,9 @@ clean:
 	rm $(HUFF_OUT)/arc 
 
 alias:
-	printf "%s%s%s" "alias arc='" $(PWD) "/bin/huffman/arc'" >> ~/.bash_profile
+	if [ "$(UNAME_S)" = "Linux" ]; \
+        then \
+	    printf "%s%s%s" "alias arc='" $(PWD) "/bin/huffman/arc'" >> ~/.bashrc;\
+	else\
+	    printf "%s%s%s" "alias arc='" $(PWD) "/bin/huffman/arc'" >> ~/.bash_profile;\
+	fi
