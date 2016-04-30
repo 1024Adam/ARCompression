@@ -2,7 +2,7 @@
 
 /*
  * Adam Reid
- * December 30, 2015
+ * April 30, 2016
  */
 
 #include "encodingTree.h"
@@ -120,6 +120,8 @@ EncodingTree * insertInTree(EncodingTree * root, EncodingTree * toAdd)
 
     if(nodeCount == 0)
     {
+        free(newRoot);
+
         return(toAdd);
     }
     else

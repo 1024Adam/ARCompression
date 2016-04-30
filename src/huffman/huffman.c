@@ -2,7 +2,7 @@
 
 /*
  * Adam Reid
- * April 8, 2016
+ * April 30, 2016
  */
 
 #include "huffman.h"
@@ -207,6 +207,7 @@ int encode(char * rFileName)
     success = writeToFile(wFileName, encodedString, tree);
 
     free(wFileName);
+    free(encodedString);
     counts = freeCounts(counts);
     tree = freeTree(tree);
 
