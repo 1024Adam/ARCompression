@@ -2,7 +2,7 @@
 
 /*
  * Adam Reid
- * April 30, 2016
+ * June 18, 2016
  */
 
 #include "huffman.h"
@@ -52,7 +52,8 @@ char * getBinaryCode(EncodingTree * root, char * fileToOpen)
     sTree = createSearchTree(sList);
     /*printSearchTree(sTree);*/
     /*printf("\n\n");*/
-
+    
+    printf("Processing file contents...\n");
     do
     {
         uletter = fgetc(file);
@@ -196,16 +197,21 @@ int encode(char * rFileName)
     strcpy(wFileName, rFileName);
     strcat(wFileName, ".arc");
 
+    printf("Configuring encoding...\n");
     counts = getCharCounts(rFileName);
     counts = sortCounts(counts);
     
     tree = createTree(counts);
     /*printTree(tree);*/
-
+    printf("Creating encoding string...\n");
     encodedString = getBinaryCode(tree, rFileName);
     /*printf("%s\n", encodedString);*/
+    printf("Printing to file...\n");
     success = writeToFile(wFileName, encodedString, tree);
-
+    if (success == 1)
+    {
+        printf("The file has been encoded to %s\n", wFileName);
+    }
     free(wFileName);
     free(encodedString);
     counts = freeCounts(counts);
@@ -240,7 +246,7 @@ int writeToFile(char * wFileName, char * string, EncodingTree * tree)
         printf("Error: file could not be found\n");
         exit(0);
     }
-
+    
     /* Grab each substring of 8 characters, and write the ASCII value to the file */
     length = strlen(string);
     /*printf("Length: %d\n", length);*/
@@ -265,7 +271,6 @@ int writeToFile(char * wFileName, char * string, EncodingTree * tree)
     length = strlen(substring);
     fprintf(wFile, "%d", length);
     filePrintTree(wFile, tree);
-    printf("The file has been encoded to %s\n", wFileName);
 
     fclose(wFile);
     
