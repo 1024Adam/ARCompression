@@ -10,18 +10,18 @@ extern "C" {
 /*
  * Class:     arcompression_SubmitListener
  * Method:    compressFile
- * Signature: ()V
+ * Signature: (Ljava/lang/String;)V
  */
 JNIEXPORT void JNICALL Java_arcompression_SubmitListener_compressFile
-  (JNIEnv *, jobject);
+  (JNIEnv *, jobject, jstring);
 
 /*
  * Class:     arcompression_SubmitListener
  * Method:    decompressFile
- * Signature: ()V
+ * Signature: (Ljava/lang/String;)V
  */
 JNIEXPORT void JNICALL Java_arcompression_SubmitListener_decompressFile
-  (JNIEnv *, jobject);
+  (JNIEnv *, jobject, jstring);
 
 #ifdef __cplusplus
 }

@@ -16,9 +16,9 @@ public class SubmitListener implements ActionListener
     private JButton submit;
     private JTextField file;
     
-    //private native void compressFile();
-    //private native void decompressFile();
-    //static { System.loadLibrary("javahuffman"); }
+    private native void compressFile(String path);
+    private native void decompressFile(String path);
+    static { System.loadLibrary("SubmitListener"); }
     
     /* Constructors */
     public SubmitListener(JTextArea textArea, JButton submit, JTextField file)
@@ -34,11 +34,11 @@ public class SubmitListener implements ActionListener
         /* TODO: Action the compress/decompress feature */
     	if(this.submit.getText().equalsIgnoreCase("<html><b>Compress File</b></html>"))
         {
-            //compressFile(file.getText());
+            compressFile(file.getText());
         }
     	if(this.submit.getText().equalsIgnoreCase("<html><b>Decompress File</b></html>"))
         {
-            //decompressFile(file.getText());
+            decompressFile(file.getText());
         }
         if(textArea.getText().equalsIgnoreCase(""))
         {
