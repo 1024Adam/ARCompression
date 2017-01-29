@@ -23,7 +23,6 @@ char * getBinaryCode(EncodingTree * root, char * fileToOpen)
     int binaryLength;
     SearchTreeList * sList;
     SearchTree * sTree;
-    int i = 0;
 
     uletter = '\0';
     letter = '\0';
@@ -54,8 +53,7 @@ char * getBinaryCode(EncodingTree * root, char * fileToOpen)
     /*printSearchTree(sTree);*/
     /*printf("\n\n");*/
     
-    for(i = 0; i <= 100; i++) printf("\b");
-    printf("###### 30%% Processing file contents...     ");
+    printf("\r###### 30%% Processing file contents...     ");
     fflush(stdout);
     do
     {
@@ -175,7 +173,6 @@ int isLetterInTree(EncodingTree * tree, char letter)
  */
 int encode(char * rFileName)
 {
-    int i = 0;
     char * wFileName;
     CharCounts * counts;
     EncodingTree * tree;
@@ -208,19 +205,16 @@ int encode(char * rFileName)
     
     tree = createTree(counts);
     /*printTree(tree);*/
-    for(i = 0; i <= 100; i++) printf("\b");
-    printf("##### 25%% Creating encoding string...");
+    printf("\r##### 25%% Creating encoding string...");
     fflush(stdout);
     encodedString = getBinaryCode(tree, rFileName);
     /*printf("%s\n", encodedString);*/
-    for(i = 0; i <= 100; i++) printf("\b");
-    printf("############### 75%% Printing to file...     ");
+    printf("\r############### 75%% Printing to file...     ");
     fflush(stdout);
     success = writeToFile(wFileName, encodedString, tree);
     if (success == 1)
     {
-        for(i = 0; i <= 100; i++) printf("\b");
-        printf("#################### 100%% The file has been encoded to %s\n", wFileName);
+        printf("\r#################### 100%% The file has been encoded to %s\n", wFileName);
         fflush(stdout);
     }
     free(wFileName);
