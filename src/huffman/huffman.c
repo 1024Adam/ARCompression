@@ -2,7 +2,7 @@
 
 /*
  * Adam Reid
- * June 18, 2016
+ * January 28, 2017
  */
 
 #include "huffman.h"
@@ -21,6 +21,7 @@ char * getBinaryCode(EncodingTree * root, char * fileToOpen)
     char * letterCode;
     char * binaryString;
     int binaryLength;
+    long i;
     SearchTreeList * sList;
     SearchTree * sTree;
 
@@ -29,6 +30,7 @@ char * getBinaryCode(EncodingTree * root, char * fileToOpen)
     letterCode = NULL;
     binaryString = NULL;
     binaryLength = 0;
+    i = 0;
     sList = NULL;
     sTree = NULL;
 
@@ -53,10 +55,15 @@ char * getBinaryCode(EncodingTree * root, char * fileToOpen)
     /*printSearchTree(sTree);*/
     /*printf("\n\n");*/
     
-    printf("\r###### 30%% Processing file contents...     ");
+    printf("\r######                30%% Processing file contents...    ");
     fflush(stdout);
     do
     {
+        if(i == 500000)
+        {
+            printf("\r##########            50%% Still working... don't worry :)");
+            fflush(stdout);
+        }
         uletter = fgetc(file);
         letter = uletter;
         if(letter != EOF)
@@ -76,6 +83,7 @@ char * getBinaryCode(EncodingTree * root, char * fileToOpen)
             /*printf("BinaryString: %s\n", binaryString);*/
             letterCode = NULL;
         }
+        i++;
     }
     while(letter != EOF);
 
@@ -198,18 +206,18 @@ int encode(char * rFileName)
     strcpy(wFileName, rFileName);
     strcat(wFileName, ".arc");
     
-    printf(" 0%% Configuring encoding...");
+    printf("                       0%% Configuring encoding...          ");
     fflush(stdout);
     counts = getCharCounts(rFileName);
     counts = sortCounts(counts);
     
     tree = createTree(counts);
     /*printTree(tree);*/
-    printf("\r##### 25%% Creating encoding string...");
+    printf("\r#####                 25%% Creating encoding string...    ");
     fflush(stdout);
     encodedString = getBinaryCode(tree, rFileName);
     /*printf("%s\n", encodedString);*/
-    printf("\r############### 75%% Printing to file...     ");
+    printf("\r###############       75%% Printing to file...            ");
     fflush(stdout);
     success = writeToFile(wFileName, encodedString, tree);
     if (success == 1)
