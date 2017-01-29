@@ -23,6 +23,7 @@ char * getBinaryCode(EncodingTree * root, char * fileToOpen)
     int binaryLength;
     SearchTreeList * sList;
     SearchTree * sTree;
+    int i = 0;
 
     uletter = '\0';
     letter = '\0';
@@ -53,7 +54,9 @@ char * getBinaryCode(EncodingTree * root, char * fileToOpen)
     /*printSearchTree(sTree);*/
     /*printf("\n\n");*/
     
-    printf("Processing file contents...\n");
+    for(i = 0; i <= 100; i++) printf("\b");
+    printf("###### 30%% Processing file contents...     ");
+    fflush(stdout);
     do
     {
         uletter = fgetc(file);
@@ -172,6 +175,7 @@ int isLetterInTree(EncodingTree * tree, char letter)
  */
 int encode(char * rFileName)
 {
+    int i = 0;
     char * wFileName;
     CharCounts * counts;
     EncodingTree * tree;
@@ -196,21 +200,28 @@ int encode(char * rFileName)
     }
     strcpy(wFileName, rFileName);
     strcat(wFileName, ".arc");
-
-    printf("Configuring encoding...\n");
+    
+    printf(" 0%% Configuring encoding...");
+    fflush(stdout);
     counts = getCharCounts(rFileName);
     counts = sortCounts(counts);
     
     tree = createTree(counts);
     /*printTree(tree);*/
-    printf("Creating encoding string...\n");
+    for(i = 0; i <= 100; i++) printf("\b");
+    printf("##### 25%% Creating encoding string...");
+    fflush(stdout);
     encodedString = getBinaryCode(tree, rFileName);
     /*printf("%s\n", encodedString);*/
-    printf("Printing to file...\n");
+    for(i = 0; i <= 100; i++) printf("\b");
+    printf("############### 75%% Printing to file...     ");
+    fflush(stdout);
     success = writeToFile(wFileName, encodedString, tree);
     if (success == 1)
     {
-        printf("The file has been encoded to %s\n", wFileName);
+        for(i = 0; i <= 100; i++) printf("\b");
+        printf("#################### 100%% The file has been encoded to %s\n", wFileName);
+        fflush(stdout);
     }
     free(wFileName);
     free(encodedString);

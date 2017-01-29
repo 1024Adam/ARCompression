@@ -1,8 +1,8 @@
-# ARCompression
-###**File Compression GUI**
+# Arc
+###**File Compression Program**
 
 ### Overview
-ARCompression is a file compression program that uses an implementation of the Huffman encoding. 
+Arc is a file compression program that uses an implementation of the Huffman encoding. 
 It is coded mainly in C for the compression aspects, with Java used to implement a GUI interface for the program.
 There is also a command line interface in C that has been implemented, and can be used instead of the GUI.
 
@@ -26,7 +26,7 @@ There is also a command line interface in C that has been implemented, and can b
 ### Running the Project
 1. Run the full C/Java GUI version of the program (Not Implemented):
 
-   No command is available for this feature at the moment
+   No command is available for this feature at this time.
 
 2. Run just the command line version of the program:
 
