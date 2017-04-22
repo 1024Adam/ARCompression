@@ -1,5 +1,5 @@
 # Arc
-##File Compression Program
+## File Compression Program
 
 ### Overview
 Arc is a file compression program that uses an implementation of the Huffman encoding. 
