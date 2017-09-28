@@ -50,10 +50,7 @@ char * getBinaryCode(EncodingTree * root, char * fileToOpen)
     strcpy(binaryString, "");
 
     sList = createSearchList(sList, root, NULL, 0);
-    /*printSearchTreeList(sList);*/
     sTree = createSearchTree(sList);
-    /*printSearchTree(sTree);*/
-    /*printf("\n\n");*/
     
     printf("\r######                30%% Processing file contents...    ");
     fflush(stdout);
@@ -68,11 +65,8 @@ char * getBinaryCode(EncodingTree * root, char * fileToOpen)
         letter = uletter;
         if(letter != EOF)
         {
-            /*printf("Letter: %c\n", letter);*/
             letterCode = getLetterCode(sTree, uletter);
-            /*printf("LetterCode: %s\n", letterCode);*/
             binaryLength += strlen(letterCode);
-            /*printf("BinaryLength: %d\n", binaryLength);*/
             binaryString = realloc(binaryString, (sizeof(char) * (binaryLength + 1)));
             if(binaryString == NULL)
             {
@@ -80,7 +74,6 @@ char * getBinaryCode(EncodingTree * root, char * fileToOpen)
                 exit(0);
             }
             strcat(binaryString, letterCode);
-            /*printf("BinaryString: %s\n", binaryString);*/
             letterCode = NULL;
         }
         i++;
@@ -90,7 +83,7 @@ char * getBinaryCode(EncodingTree * root, char * fileToOpen)
     fclose(file);
     freeSTree(sTree);
 
-    return(binaryString);
+    return (binaryString);
 }
 
 /*
@@ -107,27 +100,27 @@ char * getLetterCode(SearchTree * root, int letterNum)
     
     if(temp == NULL)
     {
-        return(NULL);
+        return (NULL);
     }
     
     /* Recursive Method */
     if(temp->letterNum == letterNum)
     {
-        return(temp->letterCode);
+        return (temp->letterCode);
     }
     else
     {
         if(letterNum <= temp->letterNum) 
         {
-            return(getLetterCode(temp->lChild, letterNum));
+            return (getLetterCode(temp->lChild, letterNum));
         }
         else if(letterNum > temp->letterNum)
         {
-            return(getLetterCode(temp->rChild, letterNum));
+            return (getLetterCode(temp->rChild, letterNum));
         }
         else
         {
-            return(NULL);
+            return (NULL);
         }
     }
     /* Iterative Method
@@ -157,17 +150,17 @@ int isLetterInTree(EncodingTree * tree, char letter)
 {
    if(tree == NULL)
    {
-       return(0);
+       return (0);
    } 
    else
    {
        if(tree->letter == letter)
        {
-           return(1);
+           return (1);
        }
        else
        {
-           return(isLetterInTree(tree->lChild, letter) | isLetterInTree(tree->rChild, letter));
+           return (isLetterInTree(tree->lChild, letter) | isLetterInTree(tree->rChild, letter));
        }
    }
 }
@@ -212,11 +205,9 @@ int encode(char * rFileName)
     counts = sortCounts(counts);
     
     tree = createTree(counts);
-    /*printTree(tree);*/
     printf("\r#####                 25%% Creating encoding string...    ");
     fflush(stdout);
     encodedString = getBinaryCode(tree, rFileName);
-    /*printf("%s\n", encodedString);*/
     printf("\r###############       75%% Printing to file...            ");
     fflush(stdout);
     success = writeToFile(wFileName, encodedString, tree);
@@ -230,7 +221,7 @@ int encode(char * rFileName)
     counts = freeCounts(counts);
     tree = freeTree(tree);
 
-    return(success);
+    return (success);
 }
 
 /*
@@ -262,21 +253,17 @@ int writeToFile(char * wFileName, char * string, EncodingTree * tree)
     
     /* Grab each substring of 8 characters, and write the ASCII value to the file */
     length = strlen(string);
-    /*printf("Length: %d\n", length);*/
     for(i = 0; i < length; i += 8)
     {
         if((i + 7) >= length)
         {
             substring = getSubstring(string, i, (length - 1));
-            /*printf("substring %d to %d: %s\n", i, (length - 1), substring);*/
         }
         else
         {
             substring = getSubstring(string, i, i + 7);
-            /*printf("substring %d to %d: %s\n", i, i + 7, substring);*/
         }
         letter = strtol(substring, NULL, 2);
-        /*printf("Resulting letter: %c\n\n", letter);*/
         fprintf(wFile, "%c", letter);
     }
 
@@ -287,7 +274,7 @@ int writeToFile(char * wFileName, char * string, EncodingTree * tree)
 
     fclose(wFile);
     
-    return(1);    
+    return (1);    
 }
 
 /*
@@ -337,7 +324,7 @@ char * getSubstring(char * string, int start, int end)
     }    
     substring[i] = '\0';
 
-    return(substring);
+    return (substring);
 }
 
 int decode(char * rFileName)
@@ -349,18 +336,16 @@ int decode(char * rFileName)
  
     success = 0;
     eTree = getTreeFromFile(rFileName);
-    /*printTree(eTree);*/
 
     wFileName = getDecodeFileName(rFileName);    
     encodedString = getEncodedBinary(rFileName);
-    /*printf("%s\n", encodedString);*/
     success = decodeToFile(wFileName, encodedString, eTree);
 
     free(encodedString);
     free(wFileName);
     freeTree(eTree);
 
-    return(1);
+    return (1);
 }
 
 char * getDecodeFileName(char * rFileName)
@@ -374,9 +359,7 @@ char * getDecodeFileName(char * rFileName)
     strncpy(wFileName, rFileName, (length - 4));
     wFileName[length - 4] = '\0';
 
-    /*printf("%s\n", wFileName);*/     
-  
-    return(wFileName);
+    return (wFileName);
 }
 
 char * getEncodedBinary(char * rFileName)
@@ -418,7 +401,6 @@ char * getEncodedBinary(char * rFileName)
         if(strcmp(sphrase, ":ARC:") != 0)
         {
             /* Figure out what the binary string is */
-            /*printf("%c\n", phrase[0]);*/
             charBinary = getBinary(phrase[0]);
             for(i = 0; i < 4; i++)
             {
@@ -434,7 +416,6 @@ char * getEncodedBinary(char * rFileName)
             {
                 temp[0] = fgetc(rFile);
                 lastLength = strtol(temp, NULL, 10);
-                /*printf("LastLength: %d\n", lastLength);*/
                 length += lastLength;
             
                 charBinary = getSubstring(charBinary, 8 - lastLength, 7);
@@ -449,13 +430,12 @@ char * getEncodedBinary(char * rFileName)
             }
             encodedBinary = realloc(encodedBinary, length);
             strcat(encodedBinary, charBinary);
-            /*printf("%s\n", encodedBinary);*/
             free(charBinary);
         }
     }
 
     fclose(rFile);
-    return(encodedBinary);
+    return (encodedBinary);
 }
 
 char * getBinary(unsigned char letter)
@@ -474,8 +454,6 @@ char * getBinary(unsigned char letter)
         exit(0);
     }
 
-    /*printf("%u\n", letter);*/
-
     for(i = 7; i >= 0; i--)
     {
         if(letter - pow(2, i) >= 0)
@@ -491,7 +469,7 @@ char * getBinary(unsigned char letter)
     }
     binaryCode[length] = '\0';
 
-    return(binaryCode);
+    return (binaryCode);
 }
 
 int decodeToFile(char * wFileName, char * string, EncodingTree * tree)
@@ -514,15 +492,12 @@ int decodeToFile(char * wFileName, char * string, EncodingTree * tree)
     {
         while(tempTree->lChild != NULL && tempTree->rChild != NULL)
         {
-            /*printf("%c\n", string[i]);*/
             if(string[i] == '0')
             {
-                /*printf("LEFT\n");*/
                 tempTree = tempTree->lChild; 
             }
             else /* string[i] == 1 */ 
             {
-                /*printf("RIGHT\n");*/
                 tempTree = tempTree->rChild; 
             }
             i++;
@@ -535,5 +510,5 @@ int decodeToFile(char * wFileName, char * string, EncodingTree * tree)
 
     fclose(wFile);
     
-    return(1);    
+    return (1);    
 }

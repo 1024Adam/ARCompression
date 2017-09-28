@@ -36,8 +36,6 @@ CharCounts * getCharCounts(char * fileToOpen)
         letter = uletter;
         if(letter != EOF)
         {
-            /*printf("Letter: %c\n", letter);*/
-
             if(isCounted(counts, uletter) == 0)
             {
                 /* Character is not counted yet */
@@ -49,7 +47,7 @@ CharCounts * getCharCounts(char * fileToOpen)
 
     fclose(file);
 
-    return(counts);
+    return (counts);
 }
 
 /*
@@ -71,12 +69,12 @@ int isCounted(CharCounts * root, unsigned char letter)
 
     if(temp == NULL)
     {
-        return(0);
+        return (0);
     }
     else
     {
         temp->count++;
-        return(1);
+        return (1);
     }
 }
 
@@ -101,7 +99,7 @@ CharCounts * createCount(unsigned char letter)
     newCount->next = NULL;
     newCount->prev = NULL;
 
-    return(newCount);
+    return (newCount);
 }
 
 /*
@@ -120,7 +118,7 @@ CharCounts * addChar(CharCounts * root, unsigned char toAdd)
 
     if(temp == NULL)
     {
-        return(newCount);
+        return (newCount);
     }
     else
     {
@@ -131,7 +129,7 @@ CharCounts * addChar(CharCounts * root, unsigned char toAdd)
         newCount->prev = temp;
         temp->next = newCount;
 
-        return(root);
+        return (root);
     }
 }
 
@@ -148,7 +146,7 @@ CharCounts * addCount(CharCounts * root, unsigned char letter)
 
     if(temp == NULL)
     {
-        return(NULL);
+        return (NULL);
     }
     else
     {
@@ -158,7 +156,7 @@ CharCounts * addCount(CharCounts * root, unsigned char letter)
         }
         temp->count++;
 
-        return(root);
+        return (root);
     }
 }
 
@@ -204,9 +202,6 @@ CharCounts * sortCounts(CharCounts * root)
             if(temp->count > temp->next->count)
             {
                 /* swap */
-                /*printf("Start\n");*/
-                /*printf("Letter 1: %c %d\n", temp->letter, temp->count);*/
-                /*printf("Letter 2: %c %d\n", temp->next->letter, temp->next->count);*/
                 done = 0;
                 swap = temp->next;
                 temp->next = temp->next->next;
@@ -228,8 +223,6 @@ CharCounts * sortCounts(CharCounts * root)
                 {
                     root = swap;
                 }
-                /*printf("Letter 1: %c %d\n", temp->prev->letter, temp->prev->count);*/
-                /*printf("Letter 2: %c %d\n", temp->letter, temp->count);*/
             }
             else
             {
@@ -238,7 +231,7 @@ CharCounts * sortCounts(CharCounts * root)
         }
     }
 
-    return(root);
+    return (root);
 }
 
 /*
@@ -261,7 +254,7 @@ int getLength(CharCounts * root)
         temp = temp->next;
     }
 
-    return(length);
+    return (length);
 }
 
 /*
@@ -278,7 +271,7 @@ CharCounts * removeFront(CharCounts * root)
     root = root->next;
 
     free(toRemove);
-    return(root);
+    return (root);
 }
 
 /*
@@ -303,11 +296,11 @@ int getLetterCount(CharCounts * counts, unsigned char letter)
 
     if(temp->letter == letter)
     {
-        return(temp->count);
+        return (temp->count);
     }
     else
     {
-        return(0);
+        return (0);
     }   
 }
 
@@ -323,5 +316,5 @@ CharCounts * freeCounts(CharCounts * counts)
     {
         counts = removeFront(counts);
     }
-    return(NULL);
+    return (NULL);
 }

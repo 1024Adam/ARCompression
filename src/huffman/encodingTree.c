@@ -39,7 +39,6 @@ EncodingTree * createTree(CharCounts * counts)
         tempCount = tempCount->next;
         queue = insertInQueue(queue, toAdd);
     }
-    /*printQueue(queue);*/
     toAdd = NULL;
     /* 
      * Remove from the TreeQueue, TWO AT A TIME, to create a singular binary tree, 
@@ -48,29 +47,21 @@ EncodingTree * createTree(CharCounts * counts)
      */
     while(isEmpty(queue) == 0)
     {
-        /*printf("boom\n");*/
         if(toAdd != NULL)
         {
             queue = insertInQueue(queue, toAdd);
         }
-        /* Remove two from queue */
         temp1 = queue->root;
-        /*printf("%c%d\n\nQueue1\n", temp1->letter, temp1->count);*/
-        /*printQueue(queue);*/
         queue = queue->next;
-        /*printf("Queue2\n");*/
-        /*printQueue(queue);*/
         temp2 = queue->root;
-        /*printf("%c%d\n\n", temp2->letter, temp2->count);*/
         queue = queue->next;
-        /*printQueue(queue);*/
         temp2 = insertInTree(temp2, temp1);
         toAdd = createBranchFromTree(temp2);
     }
 
     root = toAdd->root;
 
-    return(root);
+    return (root);
 }
 
 /*
@@ -89,11 +80,11 @@ int treeNodeCount(EncodingTree * root)
 
     if(temp == NULL)
     {
-        return(nodeCount);
+        return (nodeCount);
     }
     else
     {
-        return(nodeCount + 1 + treeNodeCount(root->lChild) + treeNodeCount(root->rChild));
+        return (nodeCount + 1 + treeNodeCount(root->lChild) + treeNodeCount(root->rChild));
     }
 }
 
@@ -122,14 +113,14 @@ EncodingTree * insertInTree(EncodingTree * root, EncodingTree * toAdd)
     {
         free(newRoot);
 
-        return(toAdd);
+        return (toAdd);
     }
     else
     {
         newRoot->lChild = toAdd;
         newRoot->rChild = root;
 
-        return(newRoot);
+        return (newRoot);
     }
 }
 
@@ -174,7 +165,7 @@ EncodingTree * freeTree(EncodingTree * tree)
         }
         free(tree);
     }
-    return(NULL);
+    return (NULL);
 }
 
 /* 
@@ -206,7 +197,7 @@ TreeQueue * createBranch(CharCounts * count)
     branch->root->rChild = NULL;
     branch->next = NULL;
 
-    return(branch);
+    return (branch);
 }
 
 /*
@@ -229,7 +220,7 @@ TreeQueue * createBranchFromTree(EncodingTree * root)
     branch->root = root;
     branch->next = NULL;
 
-    return(branch);
+    return (branch);
 }
 
 /* 
@@ -243,9 +234,6 @@ TreeQueue * insertInQueue(TreeQueue * root, TreeQueue * toAdd)
     TreeQueue * temp;
     temp = root;
 
-    /*printf("ToAdd\n");
-    printQueue(toAdd);*/
- 
     /* Find the insertion point */
     while(temp != NULL && temp->next != NULL && temp->root->count < toAdd->root->count)
     {   
@@ -255,22 +243,19 @@ TreeQueue * insertInQueue(TreeQueue * root, TreeQueue * toAdd)
     if(root == NULL)
     {   
         toAdd->next = NULL;
-        /*printQueue(toAdd);*/
-        return(toAdd);
+        return (toAdd);
     }   
     else if(temp->next == NULL)
     {   
         temp->next = toAdd;
         toAdd->next = NULL;
-        /*printQueue(root);*/
-        return(root);
+        return (root);
     }   
     else
     {   
         toAdd->next = temp->next;
         temp->next = toAdd;
-        /*printQueue(root);*/
-        return(root);
+        return (root);
     }   
 }
 
@@ -285,11 +270,11 @@ int isEmpty(TreeQueue * root)
 {
     if(root == NULL)
     {   
-        return(1);
+        return (1);
     }   
     else
     {   
-        return(0);
+        return (0);
     }   
 }
 
@@ -307,7 +292,7 @@ TreeQueue * removeFromQueue(TreeQueue * root)
     root = root->next;
 
     free(temp);
-    return(root);
+    return (root);
 }
 
 /*
@@ -324,13 +309,8 @@ void printQueue(TreeQueue * root)
     while(temp != NULL)
     {
         printf("%c%d\n", temp->root->letter, temp->root->count);
-        /*if(temp->next != NULL)
-        {
-            printf("Next:%c\n", temp->next->root->letter);
-        }*/
         temp = temp->next;
     }
-    /*printf("end\n");*/
 }
 
 /*
@@ -363,7 +343,6 @@ SearchTreeList * createSearchList(SearchTreeList * head, EncodingTree * eTree, c
     }
     else
     {
-        /*printf("First Run\n");*/
         strcpy(letterCode, currentCode);
     }
     if(tempETree->lChild == NULL && tempETree->rChild == NULL)
@@ -374,17 +353,14 @@ SearchTreeList * createSearchList(SearchTreeList * head, EncodingTree * eTree, c
     else
     {
         codeLength++;
-        /*printf("CodeLength: %d\n", codeLength);*/
         letterCode = realloc(letterCode, (sizeof(char) * (codeLength + 1)));
         letterCode[codeLength - 1] = '0';
-        /*printf("CurrentLetterCode: %s\n", letterCode);*/
         head = createSearchList(head, tempETree->lChild, letterCode, codeLength);
         letterCode[codeLength - 1] = '1';
-        /*printf("CurrentLetterCode: %s\n", letterCode);*/
         head = createSearchList(head, tempETree->rChild, letterCode, codeLength);
     }
 
-    return(head);
+    return (head);
 }
 
 /*
@@ -410,7 +386,7 @@ SearchTree * createSearchNode(EncodingTree * eTree, char * letterCode)
     sTree->lChild = NULL;
     sTree->rChild = NULL;
 
-    return(sTree);
+    return (sTree);
 }
 
 /*  
@@ -445,13 +421,13 @@ SearchTreeList * insertSearchNode(SearchTreeList * head, SearchTree * toAdd)
     if(toAdd->letterNum < temp->sTree->letterNum)
     {
         newNode->next = temp;
-        return(newNode);
+        return (newNode);
     }
     else
     {
         newNode->next = temp->next;
         temp->next = newNode;
-        return(head);
+        return (head);
     }
 }
 
@@ -496,13 +472,9 @@ SearchTree * createSearchTree(SearchTreeList * head)
     leftList = NULL;
     rightList = NULL;
     length = getLengthOfList(head);
-    /*printf("Length: %d\n", length);*/
     middle = findHighestDouble(head, ((length + 1) / 2));
     i = 0;
     
-    /*printSearchTreeList(head);*/
-    /*printf("Position: %d\n", middle);*/
- 
     if(length == 0)
     {
         return(NULL);
@@ -535,12 +507,11 @@ SearchTree * createSearchTree(SearchTreeList * head)
             free(temp->next);
             temp->next = temp->next->next;   
         }
-        /*printf("ROOT\n%c,%d,%s\n\n", sTree->letter, sTree->letterNum, sTree->letterCode);*/
         sTree->lChild = createSearchTree(leftList);
         sTree->rChild = createSearchTree(rightList);
     }
 
-    return(sTree);
+    return (sTree);
 }
 
 /*
@@ -563,7 +534,7 @@ int getLengthOfList(SearchTreeList * head)
         temp = temp->next;
     }
 
-    return(count);
+    return (count);
 }
 
 /*
@@ -584,7 +555,7 @@ int findHighestDouble(SearchTreeList * head, int middle)
 
     if(temp == NULL)
     {
-        return(0);
+        return (0);
     }
     else
     {
@@ -599,7 +570,7 @@ int findHighestDouble(SearchTreeList * head, int middle)
             temp = temp->next;
             i++;
         }
-        return(i - 1);
+        return (i - 1);
     }
 }
 
@@ -621,15 +592,15 @@ SearchTreeList * getList(SearchTreeList * head, int middle, int direction)
     { 
         if(direction == 0)
         {
-            return(NULL);
+            return (NULL);
         }
         else if(direction == 1)
         {
-            return(newList->next);
+            return (newList->next);
         }
         else
         {
-            return(NULL);
+            return (NULL);
         }
     }
     else
@@ -644,7 +615,7 @@ SearchTreeList * getList(SearchTreeList * head, int middle, int direction)
             }
 
             newList->next = NULL;
-            return(head);
+            return (head);
         }
         else if(direction == 1)
         {
@@ -655,11 +626,11 @@ SearchTreeList * getList(SearchTreeList * head, int middle, int direction)
                 i++;
             }
     
-            return(newList);
+            return (newList);
         }
         else
         {
-            return(NULL);
+            return (NULL);
         }
     }
 }
@@ -706,7 +677,7 @@ SearchTree * freeSTree(SearchTree * sTree)
         free(sTree->letterCode);
         free(sTree);
     }
-    return(NULL);
+    return (NULL);
 }
 
 /*
@@ -726,7 +697,7 @@ SearchTreeList * freeSTList(SearchTreeList * sList)
         sList = sList->next;
         free(temp);
     }
-    return(NULL);
+    return (NULL);
 }
 
 /*
@@ -781,15 +752,13 @@ EncodingTree * getTreeFromFile(char * fileName)
     letter = fgetc(file);
     while(letter != EOF)
     {
-        /*printf("%c\n", letter);*/
         toAdd = createSubTree(letter);
         eTree = insertSubTree(eTree, toAdd);    
         letter = fgetc(file);
     }
-    /*printTree(eTree);*/
     
     fclose(file);    
-    return(eTree);
+    return (eTree);
 }
 
 EncodingTree * createSubTree(unsigned char letter)
@@ -808,7 +777,7 @@ EncodingTree * createSubTree(unsigned char letter)
     eTree->lChild = NULL;
     eTree->rChild = NULL;
 
-    return(eTree);
+    return (eTree);
 }
 
 EncodingTree * insertSubTree(EncodingTree * eTree, EncodingTree * toAdd)
@@ -819,7 +788,6 @@ EncodingTree * insertSubTree(EncodingTree * eTree, EncodingTree * toAdd)
 
     if(eTree == NULL)
     {
-        /*printf("\"%c\" - Root\n", toAdd->letter);*/
         return(toAdd);
     }
     else
@@ -833,12 +801,10 @@ EncodingTree * insertSubTree(EncodingTree * eTree, EncodingTree * toAdd)
         }        
         else if(temp->lChild == NULL)
         { 
-            /*printf("\"%c\" - LeftChild\n", toAdd->letter);*/
             temp->lChild = toAdd;
         }
         else /*(temp->rChild == NULL)*/
         {
-            /*printf("\"%c\" - RightChild\n", toAdd->letter);*/
             temp->rChild = toAdd;
         }
         return(eTree);
@@ -855,36 +821,30 @@ EncodingTree * findNextPosition(EncodingTree * eTree, EncodingTree * eParent, in
     {
         if(checkedLeft == 1) /* Left side has been checked already */
         {
-            /*printf("PlaceRight\n");*/
-            return(eParent);
+            return (eParent);
         }
         else
         {
-            /*printf("NULL\n");*/
-            return(NULL);
+            return (NULL);
         }
     }
     else if(eTree->letter == '\0' && eTree->lChild == NULL)
     {
-        /*printf("PlaceLeft\n");*/
-        return(eTree);
+        return (eTree);
     }
     else if((eTree->lChild != NULL && eTree->lChild->letter != '\0') && eTree->rChild == NULL)
     {
-        /*printf("PlaceRight\n");*/
-        return(eTree);
+        return (eTree);
     }
     else
     {
-        /*printf("GoingLeft\n");*/
         temp = findNextPosition(eTree->lChild, eTree, 0);
         if(temp != NULL)
         { 
-            return(temp);
+            return (temp);
         }
         else
         {
-            /*printf("LeftIsNULL\nGoingRight\n");*/
             if(eTree->letter == '\0') /* Denotes a possible available location to the right */
             {
                 temp = findNextPosition(eTree->rChild, eTree, 1);
@@ -893,8 +853,7 @@ EncodingTree * findNextPosition(EncodingTree * eTree, EncodingTree * eParent, in
             {
                 temp = findNextPosition(eTree->rChild, eTree, 0);
             }
-            /*if(temp == NULL){printf("RightIsNULL\n");}*/
-            return(temp);
+            return (temp);
         }
     }
 }
