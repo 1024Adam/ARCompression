@@ -23,5 +23,6 @@ tests/theveldt.txt.arc
 tests/theveldtoriginal.txt
 tests/vgilante.txt
 tests/vgilante.txt.arc
-/bin/*
+/bin/*/*.o
+/depend/*.d
 arc
