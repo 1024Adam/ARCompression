@@ -179,16 +179,12 @@ int encode(char * rFileName)
     EncodingTree * tree;
     char * encodedString;
     int success;
-    SearchTreeList * sTreeList;
-    SearchTree * sTree;
 
     wFileName = NULL;
     counts = NULL;
     tree = NULL;
     encodedString = NULL;
     success = 0;    
-    sTreeList = NULL;
-    sTree = NULL;
 
     wFileName = malloc(sizeof(char) * (strlen(rFileName) + 5));
     if(wFileName == NULL)

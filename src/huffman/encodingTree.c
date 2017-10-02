@@ -20,7 +20,6 @@ EncodingTree * createTree(CharCounts * counts)
     TreeQueue * toAdd;
     EncodingTree * temp1;
     EncodingTree * temp2;
-    int nodeCount;
     CharCounts * tempCount;
 
     root = NULL;
@@ -28,7 +27,6 @@ EncodingTree * createTree(CharCounts * counts)
     toAdd = NULL;
     temp1 = NULL;
     temp2 = NULL;
-    nodeCount = 0;
     tempCount = NULL;
  
     /* Insert all CharCounts into the TreeQueue (sorted least to greatest) */

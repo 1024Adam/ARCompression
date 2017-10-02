@@ -282,10 +282,8 @@ CharCounts * removeFront(CharCounts * root)
  */
 int getLetterCount(CharCounts * counts, unsigned char letter)
 {
-    int letterCount;
     CharCounts * temp;
 
-    letterCount = 0;
     temp = counts;
 
     /* find the letter passed */

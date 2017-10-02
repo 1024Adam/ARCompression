@@ -1,22 +1,64 @@
-CFLAGS = -ansi -Wall
-LFLAGS = -lm
-CC = gcc
-HUFF_DIR = src/huffman
-HUFF_OUT = arc
-UNAME_S := $(shell uname -s)
+# Binary File
+OBJ := arc
 
-all: arcomp
+# Source Files
+SRC_DIR := src/huffman/
+SOURCE_FILES := $(wildcard $(SRC_DIR)*.c)
 
-arcomp: src/huffman/charCounts.c src/huffman/charCounts.h src/huffman/encodingTree.c src/huffman/encodingTree.h src/huffman/huffman.c src/huffman/huffman.h
-	$(CC) $(CFLAGS) $(HUFF_DIR)/charCounts.c $(HUFF_DIR)/encodingTree.c $(HUFF_DIR)/huffman.c $(HUFF_DIR)/testMain.c $(LFLAGS) -o $(HUFF_OUT)
+# Object Files
+OBJ_DIR := bin/huffman/
+OBJECT_FILES := $(patsubst $(SRC_DIR)%.c,$(OBJ_DIR)%.o,$(SOURCE_FILES))
+
+# Header Files
+HEADER_DIR := include/
+INCLUDE := -I$(HEADER_DIR)
+
+# Depend Files
+DEPEND_DIR := depend/
+DEPEND_FILES := $(patsubst $(SRC_DIR)%.c,$(DEPEND_DIR)%.d,$(SOURCE_FILES))
+
+# Compiler
+CC := gcc
+
+# C Compiler Flags
+STD := -std=c11
+# development (3), and production (0)
+DEBUG := -g3
+# Optimizations (Not included by default, for simplicity, but definitely recomended)
+# OPT := -O2 -flto
+
+# Dependency Flags
+DFLAGS := -MMD -MF
+
+CFLAGS += -Werror -Wall -Wextra -Wpedantic $(DEBUG)
+LFLAGS := -lm
+
+.PHONY: all
+
+all: $(OBJ)
+
+$(OBJ): $(OBJECT_FILES)
+	$(CC) $(DEBUG) $(STD) $(OBJECT_FILES) $(LFLAGS) -o $(OBJ)
+
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c
+	$(CC) -c $< $(CFLAGS) $(STD) $(INCLUDE) $(DFLAGS) $(patsubst $(OBJ_DIR)%.o,$(DEPEND_DIR)%.d,$@) -o $@
+
+-include $(DEPEND_FILES)
+
+.PHONY: valgrind clean
 
 clean:
-	rm $(HUFF_OUT) 
+	rm -f $(OBJ_DIR)*.o
+	rm -f $(DEPEND_DIR)*.d
+	rm -f $(OBJ)
+
+valgrind: all
+	valgrind --show-leak-kinds=all --leak-check=yes --track-origins=yes ./$(OBJ)
 
 alias:
 	if [ "$(UNAME_S)" = "Linux" ]; \
         then \
-	    printf "%s%s%s" "alias arc='" $(PWD) "/bin/huffman/arc'" >> ~/.bashrc;\
+	    printf "%s%s%s" "alias arc='" $(PWD) "/arc'" >> ~/.bashrc;\
 	else\
-	    printf "%s%s%s" "alias arc='" $(PWD) "/bin/huffman/arc'" >> ~/.bash_profile;\
+	    printf "%s%s%s" "alias arc='" $(PWD) "/arc'" >> ~/.bash_profile;\
 	fi
