@@ -23,5 +23,5 @@ tests/theveldt.txt.arc
 tests/theveldtoriginal.txt
 tests/vgilante.txt
 tests/vgilante.txt.arc
-/bin/
-
+/bin/arcompression/*
+/bin/huffman/*
