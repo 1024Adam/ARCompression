@@ -333,10 +333,21 @@ int decode(char * rFileName)
     success = 0;
     eTree = getTreeFromFile(rFileName);
 
+    printf("                       0%% Obtaining file name...          ");
+    fflush(stdout);
     wFileName = getDecodeFileName(rFileName);    
+    printf("\r##                    10%% Configuring encoding string...    ");
+    fflush(stdout);
     encodedString = getEncodedBinary(rFileName);
+    printf("\r###############       75%% Decoding to file...    ");
+    fflush(stdout);
     success = decodeToFile(wFileName, encodedString, eTree);
-
+    if(success == 1)
+    {
+        printf("\r###################  100%% The file has been decoded to %s\n", wFileName);
+        fflush(stdout);
+    }
+    
     free(encodedString);
     free(wFileName);
     freeTree(eTree);
@@ -369,8 +380,10 @@ char * getEncodedBinary(char * rFileName)
     int length;
     int lastLength;
     int i;
+    int counter;
 
     i = 0;
+    counter = 0;
     length = 1;
     lastLength = 0;
     rFile = fopen(rFileName, "r");
@@ -386,6 +399,13 @@ char * getEncodedBinary(char * rFileName)
     /* Until the point in the file where ":ARC:" is found */
     while(strcmp(sphrase, ":ARC:") != 0)
     {
+        counter++;
+        if (counter == 250000)
+        {
+            printf("\r##########            50%% Still working... don't worry :)");
+            fflush(stdout);
+        }
+        
         for(i = 0; i < 5; i++)
         {
             phrase[i] = fgetc(rFile);
@@ -501,8 +521,6 @@ int decodeToFile(char * wFileName, char * string, EncodingTree * tree)
         fprintf(wFile, "%c", tempTree->letter);
         tempTree = tree;
     }
-    
-    printf("The file has been decoded to %s\n", wFileName);
 
     fclose(wFile);
     

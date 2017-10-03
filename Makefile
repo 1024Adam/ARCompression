@@ -24,8 +24,8 @@ CC := gcc
 STD := -std=c11
 # development (3), and production (0)
 DEBUG := -g3
-# Optimizations (Not included by default, for simplicity, but definitely recomended)
-# OPT := -O2 -flto
+# Optimizations
+OPT := -O2 -flto
 
 # Dependency Flags
 DFLAGS := -MMD -MF
@@ -41,7 +41,7 @@ $(OBJ): $(OBJECT_FILES)
 	$(CC) $(DEBUG) $(STD) $(OBJECT_FILES) $(LFLAGS) -o $(OBJ)
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
-	$(CC) -c $< $(CFLAGS) $(STD) $(INCLUDE) $(DFLAGS) $(patsubst $(OBJ_DIR)%.o,$(DEPEND_DIR)%.d,$@) -o $@
+	$(CC) -c $< $(CFLAGS) $(STD) $(INCLUDE) $(OPT) $(DFLAGS) $(patsubst $(OBJ_DIR)%.o,$(DEPEND_DIR)%.d,$@) -o $@
 
 -include $(DEPEND_FILES)
 
