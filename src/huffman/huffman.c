@@ -333,13 +333,13 @@ int decode(char * rFileName)
     success = 0;
     eTree = getTreeFromFile(rFileName);
 
-    printf("                       0%% Obtaining file name...          ");
+    printf("                       0%% Obtaining file name...              ");
     fflush(stdout);
     wFileName = getDecodeFileName(rFileName);    
     printf("\r##                    10%% Configuring encoding string...    ");
     fflush(stdout);
     encodedString = getEncodedBinary(rFileName);
-    printf("\r###############       75%% Decoding to file...    ");
+    printf("\r###############       75%% Decoding to file...               ");
     fflush(stdout);
     success = decodeToFile(wFileName, encodedString, eTree);
     if(success == 1)
