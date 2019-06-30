@@ -30,7 +30,7 @@ There is also a command line interface in C that has been implemented, and can b
 
 2. Run just the command line version of the program:
 
-   arc
+   arcompress
    
    Command line arguments:
    
