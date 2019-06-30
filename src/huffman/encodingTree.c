@@ -709,8 +709,6 @@ EncodingTree * getTreeFromFile(char * fileName)
     FILE * file;
     EncodingTree * eTree;
     EncodingTree * toAdd;
-    char * charBinary;
-    char * binaryString;
     char phrase[6] = {'\0'};
     char letter;
     int i;
@@ -726,8 +724,6 @@ EncodingTree * getTreeFromFile(char * fileName)
     toAdd = NULL;
     i = 0;
     letter = '\0';
-    charBinary = NULL;
-    binaryString = NULL;
 
     /* Find the point in the file where ":ARC:" is found */
     while(strcmp(phrase, ":ARC:") != 0)

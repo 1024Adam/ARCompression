@@ -58,7 +58,7 @@ valgrind: all
 alias:
 	if [ "$(UNAME_S)" = "Linux" ]; \
         then \
-	    printf "%s%s%s" "alias arc='" $(PWD) "/arc'" >> ~/.bashrc;\
+	    printf "%s%s%s" "alias arcompress='" $(PWD) "/arc'" >> ~/.bashrc;\
 	else\
-	    printf "%s%s%s" "alias arc='" $(PWD) "/arc'" >> ~/.bash_profile;\
+	    printf "%s%s%s" "alias arcompress='" $(PWD) "/arc'" >> ~/.bash_profile;\
 	fi
